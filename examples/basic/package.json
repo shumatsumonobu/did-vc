@@ -1,0 +1,25 @@
+{
+  "name": "basic",
+  "version": "1.0.0",
+  "description": "Verifiable Credentials（VC）の発行・保有・検証を体験できるシンプルなデモシステム",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^6.3.6"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "html5-qrcode": "^2.3.8",
+    "qrcode-generator": "^2.0.4"
+  }
+}

@@ -1,0 +1,211 @@
+/* Bootstrap CSS インポート */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* 最小限のカスタムスタイル */
+:root {
+  --bs-body-font-size: 0.8125rem;
+  --bs-body-font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* 高級感のある落ち着いた青ベースの色 */
+  --bs-primary: #2c5aa0;
+  --bs-primary-rgb: 44, 90, 160;
+
+  /* text-mutedの色を少し濃く */
+  --bs-secondary: #555;
+  --bs-secondary-rgb: 85, 85, 85;
+}
+
+body {
+  font-size: var(--bs-body-font-size);
+  font-family: var(--bs-body-font-family);
+}
+
+/* 小さめのフォントサイズ調整 */
+.btn {
+  font-size: var(--bs-body-font-size);
+}
+
+.form-control,
+.form-select,
+.form-label {
+  font-size: var(--bs-body-font-size);
+}
+
+.card {
+  font-size: var(--bs-body-font-size);
+}
+
+/* モノスペースフォント */
+.font-monospace {
+  font-size: 0.75rem;
+}
+
+/* text-mutedの色を濃く */
+.text-muted {
+  color: #222 !important;
+}
+
+/* モバイルでの下部マージン */
+body {
+  padding-bottom: 2rem;
+}
+
+/* より安全なマージン（モバイル端末を考慮） */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 3rem;
+  }
+}
+
+/* ローディングオーバーレイ */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* デジタルローディングアニメーション */
+.loading-spinner {
+  width: 80px;
+  height: 80px;
+}
+
+.loading-spinner svg {
+  width: 100%;
+  height: 100%;
+  animation: rotate 1.2s linear infinite;
+}
+
+.loading-spinner .path {
+  fill: none;
+  stroke: var(--bs-primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 40, 200;
+  stroke-dashoffset: 0;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+/* シナリオ選択ボタン */
+
+/* 選択中のボタンのハイライト表示 */
+.btn-primary {
+  background-color: var(--bs-primary) !important;
+  border: 1px solid var(--bs-primary) !important;
+  color: white !important;
+}
+.btn-primary .text-white-on-hover,
+.btn-primary .text-muted {
+  color: white !important;
+}
+
+/* 選択中のボタンはホバーしても同じ色を維持 */
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+}
+
+.btn-outline-dark:hover {
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+  color: white !important;
+}
+.btn-outline-dark:hover .text-white-on-hover,
+.btn-outline-dark:hover .text-muted {
+  color: white !important;
+}
+
+.btn-outline-dark:active,
+.btn-outline-dark:focus {
+  background-color: #1e4474 !important;
+  border-color: #1e4474 !important;
+  color: white !important;
+}
+.btn-outline-dark:active .text-white-on-hover,
+.btn-outline-dark:active .text-muted,
+.btn-outline-dark:focus .text-white-on-hover,
+.btn-outline-dark:focus .text-muted {
+  color: white !important;
+}
+
+/* ホルダー専用フッターナビゲーション */
+.holder-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 1px solid #e9ecef;
+  z-index: 1000;
+}
+
+.holder-nav {
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0 12px 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.holder-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #6c757d;
+  transition: color 0.2s ease;
+  padding: 4px 12px;
+  border-radius: 8px;
+}
+
+.holder-nav-item:hover {
+  color: var(--bs-primary);
+}
+
+.holder-nav-item.active {
+  color: var(--bs-primary);
+}
+
+.holder-nav-item i {
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.holder-nav-item span {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* フッター分のbody下部マージン調整 */
+body {
+  padding-bottom: 80px;
+}

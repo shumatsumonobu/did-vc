@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VP提示 - デジタルウォレット</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="container py-3">
+    <div class="text-center mb-3">
+      <h1 class="h2">VP提示アプリ</h1>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+
+        <!-- VC未発行時の誘導メッセージ -->
+        <div id="no-vc-message" class="mb-4" style="display: none;">
+          <div class="card border-0">
+            <div class="card-body text-center">
+              <h5 class="mb-3">VCが発行されていません</h5>
+              <p class="text-muted mb-4">VP提示を行うには、まず身元情報を含むVCの発行が必要です。</p>
+              <div class="d-grid">
+                <a href="credentials.html" class="btn btn-dark btn-lg">VC管理画面へ</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VP提示エリア -->
+        <div id="vp-presentation-area">
+          <h6 class="mb-3">認証用途・シーン選択</h6>
+
+          <!-- シーン選択ボタン -->
+        <div class="d-grid gap-3 mb-3">
+          <button class="btn btn-outline-dark text-start p-3" id="identity-btn" data-scene="identity">
+            <h6 class="mb-1 text-white-on-hover">本人確認</h6>
+            <small class="mb-0 text-muted text-white-on-hover">氏名・生年月日・住所を含む完全な身元証明</small>
+          </button>
+
+          <button class="btn btn-outline-dark text-start p-3" id="age-btn" data-scene="age">
+            <h6 class="mb-1 text-white-on-hover">年齢認証</h6>
+            <small class="mb-0 text-muted text-white-on-hover">成人年齢の証明（個人情報の開示なし）</small>
+          </button>
+        </div>
+
+          <!-- 技術的説明 -->
+        <div class="mb-3">
+          <small class="text-muted">
+            選択されたシーンに応じて、保有VCから必要な属性のみを抽出してVP（Verifiable Presentation）を作成します。QRコードには最小限の情報のみが含まれ、プライバシーが保護されます。
+          </small>
+        </div>
+
+        <!-- QRコード表示エリア -->
+        <div class="card border-0">
+          <div class="card-body text-center py-3">
+            <div class="mb-3">
+              <div id="qr-area" class="bg-light border rounded p-5 mx-auto" style="width: 300px; height: 300px;">
+                <div class="d-flex align-items-center justify-content-center h-100">
+                  <div class="text-muted">
+                    <p class="mb-2">QRコード</p>
+                    <small>認証方式を選択すると生成されます</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p id="qr-description" class="text-muted">認証アプリでこのQRコードをスキャンしてください</p>
+            
+            
+          </div>
+        </div>
+        
+        <!-- 戻るボタン -->
+        <div class="mt-3">
+          <div class="d-grid">
+            <a href="index.html" class="btn btn-dark">ウォレットに戻る</a>
+          </div>
+        </div>
+        </div> <!-- VP提示エリア終了 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- フッターナビゲーション -->
+  <footer class="holder-footer">
+    <div class="holder-nav">
+      <a href="index.html" class="holder-nav-item">
+        <i class="fas fa-home"></i>
+        <span>ホーム</span>
+      </a>
+      <a href="credentials.html" class="holder-nav-item">
+        <i class="fas fa-id-card"></i>
+        <span>VC管理</span>
+      </a>
+      <a href="presentation.html" class="holder-nav-item active">
+        <i class="fas fa-qrcode"></i>
+        <span>VP提示</span>
+      </a>
+    </div>
+  </footer>
+
+  <script type="module" src="../js/holder/presentation.js"></script>
+</body>
+</html>

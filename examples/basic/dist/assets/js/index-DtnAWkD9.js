@@ -1,0 +1,1 @@
+import"./style-D_Vc9ErJ.js";console.log("DID/VC認証基盤デモ - メインページ読み込み完了");document.addEventListener("DOMContentLoaded",function(){o()});function o(){console.log("メインページ初期化中..."),console.log("メインページ初期化完了")}

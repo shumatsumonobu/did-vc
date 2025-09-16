@@ -2,7 +2,7 @@
  * 共通ローディング機能
  * 指定時間ローディングを表示し、完了後に自動で非表示にする
  */
-window.showLoadingFor = async function(duration = 1000) {
+export async function showLoadingFor(duration = 1000) {
   // 既存のローディングがある場合は削除
   const existingOverlay = document.querySelector('.loading-overlay');
   if (existingOverlay) {
@@ -30,4 +30,4 @@ window.showLoadingFor = async function(duration = 1000) {
       resolve();
     }, duration);
   });
-};
+}
