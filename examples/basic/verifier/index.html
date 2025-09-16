@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>認証アプリ - DID/VC認証基盤</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+</head>
+<body>
+  <div class="container py-3">
+    <div class="text-center mb-3">
+      <h1 class="h2">認証アプリ</h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+
+        <!-- 認証シナリオ選択 -->
+        <div id="step1" class="step-content">
+          <div class="card border-0">
+            <div class="card-header bg-white border-0">
+              <h2 class="h5 mb-0">認証シナリオ選択</h2>
+            </div>
+            <div class="card-body">
+              <div class="d-grid gap-3 mb-4">
+                <button class="btn btn-outline-dark text-start p-3 position-relative" onclick="selectScenario('identity')">
+                  <span class="selected-icon position-absolute top-0 end-0 m-2 text-primary" style="display: none; font-size: 1.2rem;">✓</span>
+                  <h6 class="mb-1 text-white-on-hover">本人確認認証</h6>
+                  <small class="mb-0 text-muted text-white-on-hover">氏名・生年月日・住所を含む完全な身元認証を実行</small>
+                </button>
+
+                <button class="btn btn-outline-dark text-start p-3 position-relative" onclick="selectScenario('age')">
+                  <span class="selected-icon position-absolute top-0 end-0 m-2 text-primary" style="display: none; font-size: 1.2rem;">✓</span>
+                  <h6 class="mb-1 text-white-on-hover">年齢認証アプリ</h6>
+                  <small class="mb-0 text-muted text-white-on-hover">成人年齢のみを認証（プライバシー保護・個人情報非開示）</small>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        
+        <!-- VP読取エリア -->
+        <div id="vp-scan-area" class="mt-4" style="display: none;">
+          <div class="card border-0">
+            <div class="card-header bg-white border-0">
+              <h2 class="h5 mb-0">VPの認証</h2>
+            </div>
+            <div class="card-body">
+              <div class="alert alert-info mb-4">
+                選択された認証方式: <strong>本人確認認証</strong>
+              </div>
+              
+              <div class="text-center mb-4">
+                <div id="qr-reader" class="rounded border" style="width: 100%; max-width: 400px; margin: 0 auto;"></div>
+                <div id="qr-reader-placeholder" class="bg-dark text-white rounded p-5" style="height: 200px;">
+                  <div class="d-flex align-items-center justify-content-center h-100">
+                    <div>
+                      <p class="mb-1">VPスキャナー</p>
+                      <small>「スキャン開始」ボタンを押してください</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center mb-4">
+                <button id="start-scan-btn" class="btn btn-primary me-2" onclick="startQRScanner()" disabled>スキャン開始</button>
+                <button id="stop-scan-btn" class="btn btn-secondary" onclick="stopQRScanner()" style="display: none;">スキャン停止</button>
+              </div>
+              
+              <!-- VPデータ直接入力（将来使用する可能性があるためコメントアウト）
+              <div class="text-center mb-3">
+                <span class="text-muted">— または —</span>
+              </div>
+
+              <div class="mb-3">
+                <label for="vpData" class="form-label">VPデータ直接入力</label>
+                <textarea class="form-control" id="vpData" rows="3" placeholder="VPデータを入力してください..."></textarea>
+              </div>
+              -->
+              
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-secondary">戻る</button>
+                <button id="authenticate-btn" class="btn btn-dark px-4" disabled>認証実行</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 認証結果エリア -->
+        <div id="result-area" class="mt-4" style="display: none;">
+          <div class="card border-0">
+            <div class="card-header bg-white border-0">
+              <h2 class="h5 mb-0">認証結果</h2>
+            </div>
+            <div class="card-body">
+              <!-- 成功例 -->
+              <div class="alert alert-success">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                    <strong>✓</strong>
+                  </div>
+                  <div>
+                    <h5 class="mb-0">認証成功</h5>
+                    <small>VPの真正性が確認されました</small>
+                  </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="mb-2"><strong>認証方式:</strong> 本人確認認証</p>
+                    <p class="mb-2"><strong>発行機関:</strong> DID認証機構</p>
+                    <p class="mb-0"><strong>認証日時:</strong> 2024-01-15 14:30:34</p>
+                  </div>
+                  <div class="col-md-6">
+                    <h6>認証済み属性情報:</h6>
+                    <ul class="mb-0 small">
+                      <li>氏名: 山田 太郎</li>
+                      <li>生年月日: 1990年5月15日</li>
+                      <li>住所: 東京都千代田区霞が関1-1-1</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 失敗例（非表示） -->
+              <div class="alert alert-danger" style="display: none;">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="rounded-circle bg-danger text-white d-inline-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                    <strong>✗</strong>
+                  </div>
+                  <div>
+                    <h5 class="mb-0">認証失敗</h5>
+                    <small>VPの認証に失敗しました</small>
+                  </div>
+                </div>
+                <hr>
+                <p class="mb-0"><strong>エラー:</strong> デジタル署名の認証に失敗しました。VPが改ざんされている可能性があります。</p>
+              </div>
+              
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-secondary">最初から</button>
+                <button class="btn btn-dark">新規認証</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .btn-outline-dark:hover,
+    .btn-primary {
+      background-color: transparent !important;
+      border: 1px solid var(--bs-primary) !important;
+      color: var(--bs-primary) !important;
+    }
+    .btn-outline-dark:hover .text-white-on-hover,
+    .btn-primary .text-white-on-hover {
+      color: var(--bs-primary) !important;
+    }
+  </style>
+
+  <script>
+    let selectedScenario = null;
+    let html5QrCode = null;
+    let scannedVPData = null;
+
+    function selectScenario(scenario) {
+      selectedScenario = scenario;
+
+      // ボタンの状態を更新
+      updateButtonStates(scenario);
+
+      // VP読取エリアを直接表示
+      document.getElementById('vp-scan-area').style.display = 'block';
+
+      // 選択したシナリオ情報を更新
+      const scenarioName = selectedScenario === 'identity' ? '本人確認認証' : '年齢認証アプリ';
+      document.querySelector('#vp-scan-area .alert-info strong').textContent = scenarioName;
+
+      // スムーズスクロール
+      setTimeout(() => {
+        document.getElementById('vp-scan-area').scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+
+    function startQRScanner() {
+      // ライブラリの読み込み確認
+      if (typeof Html5Qrcode === 'undefined') {
+        console.error('Html5Qrcode ライブラリが読み込まれていません');
+        alert('QRスキャナーの初期化に失敗しました。ページを再読み込みしてください。');
+        return;
+      }
+
+      const qrReader = document.getElementById('qr-reader');
+      const placeholder = document.getElementById('qr-reader-placeholder');
+      const startBtn = document.getElementById('start-scan-btn');
+      const stopBtn = document.getElementById('stop-scan-btn');
+
+      // プレースホルダーを非表示、リーダーを表示
+      placeholder.style.display = 'none';
+      qrReader.style.display = 'block';
+
+      // ボタンの状態を切り替え
+      startBtn.style.display = 'none';
+      stopBtn.style.display = 'inline-block';
+
+      html5QrCode = new Html5Qrcode("qr-reader");
+
+      html5QrCode.start(
+        { facingMode: "environment" }, // リアカメラを優先
+        {
+          fps: 10,    // フレームレート
+          qrbox: { width: 250, height: 250 }, // スキャンエリア
+          aspectRatio: 1.0
+        },
+        (decodedText, decodedResult) => {
+          // QRコード読み取り成功
+          console.log('QRコード読み取り成功:', decodedText);
+          scannedVPData = decodedText;
+
+          // スキャンを停止
+          stopQRScanner();
+
+          // 認証実行ボタンを有効化
+          document.getElementById('authenticate-btn').disabled = false;
+
+          // 成功メッセージを表示
+          showScanSuccess();
+        },
+        (errorMessage) => {
+          // エラーは無視（継続的にスキャンするため）
+        }
+      ).catch(err => {
+        console.error('カメラ起動エラー:', err);
+        alert('カメラの起動に失敗しました。カメラへのアクセス権限を確認してください。');
+        resetScanButtons();
+      });
+    }
+
+    function stopQRScanner() {
+      if (html5QrCode) {
+        html5QrCode.stop().then(() => {
+          html5QrCode.clear();
+          resetScanButtons();
+        }).catch(err => {
+          console.error('スキャン停止エラー:', err);
+          resetScanButtons();
+        });
+      }
+    }
+
+    function resetScanButtons() {
+      const qrReader = document.getElementById('qr-reader');
+      const placeholder = document.getElementById('qr-reader-placeholder');
+      const startBtn = document.getElementById('start-scan-btn');
+      const stopBtn = document.getElementById('stop-scan-btn');
+
+      // リーダーを非表示、プレースホルダーを表示
+      qrReader.style.display = 'none';
+      placeholder.style.display = 'block';
+
+      // ボタンの状態を戻す
+      startBtn.style.display = 'inline-block';
+      stopBtn.style.display = 'none';
+    }
+
+    function showScanSuccess() {
+      const placeholder = document.getElementById('qr-reader-placeholder');
+      placeholder.className = 'bg-success text-white rounded p-5';
+      placeholder.innerHTML = `
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <div>
+            <p class="mb-1">✓ QRコード読み取り完了</p>
+            <small>VPデータを取得しました</small>
+          </div>
+        </div>
+      `;
+    }
+
+    // ページ読み込み完了時の処理
+    document.addEventListener('DOMContentLoaded', function() {
+      // Html5Qrcodeライブラリの読み込み確認
+      function checkLibraryLoaded() {
+        if (typeof Html5Qrcode !== 'undefined') {
+          console.log('Html5Qrcode ライブラリが正常に読み込まれました');
+          // スキャン開始ボタンを有効化
+          document.getElementById('start-scan-btn').disabled = false;
+        } else {
+          console.log('Html5Qrcode ライブラリを待機中...');
+          setTimeout(checkLibraryLoaded, 100);
+        }
+      }
+
+      // ライブラリ読み込み確認を開始
+      checkLibraryLoaded();
+
+      // 認証実行ボタンのイベントリスナーを追加
+      const authenticateBtn = document.getElementById('authenticate-btn');
+      if (authenticateBtn) {
+        authenticateBtn.addEventListener('click', function() {
+          if (scannedVPData) {
+            // ここでVPデータを検証する処理を追加
+            console.log('検証するVPデータ:', scannedVPData);
+
+            // 認証結果エリアを表示
+            document.getElementById('result-area').style.display = 'block';
+
+            // スムーズスクロール
+            document.getElementById('result-area').scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      }
+    });
+
+    function updateButtonStates(selectedScenario) {
+      // すべての選択ボタンをリセット
+      const buttons = document.querySelectorAll('button[onclick*="selectScenario"]');
+      buttons.forEach(btn => {
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-outline-dark');
+        // チェックアイコンを非表示
+        const icon = btn.querySelector('.selected-icon');
+        if (icon) icon.style.display = 'none';
+      });
+
+      // 選択されたボタンのみをハイライト
+      const targetText = selectedScenario === 'identity' ? '本人確認認証' : '年齢認証アプリ';
+      buttons.forEach(btn => {
+        if (btn.textContent.includes(targetText)) {
+          btn.classList.remove('btn-outline-dark');
+          btn.classList.add('btn-primary');
+          // チェックアイコンを表示
+          const icon = btn.querySelector('.selected-icon');
+          if (icon) icon.style.display = 'block';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

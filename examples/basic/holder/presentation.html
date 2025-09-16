@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VP提示 - デジタルウォレット</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://unpkg.com/qrcode-generator@1.4.4/qrcode.js"></script>
+  <script src="../lib/loading.js"></script>
+</head>
+<body>
+  <div class="container py-3">
+    <div class="text-center mb-3">
+      <h1 class="h2">VP提示アプリ</h1>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <h6 class="mb-3">認証用途・シーン選択</h6>
+
+        <!-- シーン選択ボタン -->
+        <div class="d-grid gap-3 mb-3">
+          <button class="btn btn-outline-dark text-start p-3 position-relative" onclick="selectScene('identity')">
+            <span class="selected-icon position-absolute top-0 end-0 m-2 text-primary" style="display: none; font-size: 1.2rem;">✓</span>
+            <h6 class="mb-1 text-white-on-hover">本人確認</h6>
+            <small class="mb-0 text-muted text-white-on-hover">氏名・生年月日・住所を含む完全な身元証明</small>
+          </button>
+
+          <button class="btn btn-outline-dark text-start p-3 position-relative" onclick="selectScene('age')">
+            <span class="selected-icon position-absolute top-0 end-0 m-2 text-primary" style="display: none; font-size: 1.2rem;">✓</span>
+            <h6 class="mb-1 text-white-on-hover">年齢認証</h6>
+            <small class="mb-0 text-muted text-white-on-hover">成人年齢の証明（個人情報の開示なし）</small>
+          </button>
+        </div>
+
+        <style>
+          .btn-outline-dark:hover,
+          .btn-primary {
+            background-color: transparent !important;
+            border: 1px solid var(--bs-primary) !important;
+            color: var(--bs-primary) !important;
+          }
+          .btn-outline-dark:hover .text-white-on-hover,
+          .btn-primary .text-white-on-hover {
+            color: var(--bs-primary) !important;
+          }
+        </style>
+        
+        <!-- QRコード表示エリア -->
+        <div class="card border-0">
+          <div class="card-body text-center py-3">
+            <div class="mb-3">
+              <div id="qr-area" class="bg-light border rounded p-5 mx-auto" style="width: 300px; height: 300px;">
+                <div class="d-flex align-items-center justify-content-center h-100">
+                  <div class="text-muted">
+                    <p class="mb-2">QRコード</p>
+                    <small>認証方式を選択すると生成されます</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p id="qr-description" class="text-muted">認証アプリでこのQRコードをスキャンしてください</p>
+            
+            
+          </div>
+        </div>
+        
+        <!-- 戻るボタン -->
+        <div class="mt-3">
+          <div class="d-grid">
+            <a href="index.html" class="btn btn-dark">ウォレットに戻る</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    let selectedScenario = null;
+
+    // QRCodeライブラリの読み込み確認
+    window.addEventListener('load', function() {
+      if (typeof qrcode === 'undefined') {
+        console.error('QRCodeライブラリが読み込まれていません');
+      } else {
+        console.log('QRCodeライブラリが正常に読み込まれました');
+      }
+    });
+    
+    function selectScene(scene) {
+      selectedScenario = scene;
+      
+      // QRコード生成をシミュレート
+      generateQRCode(scene);
+      
+      // ボタンの状態を更新
+      updateButtonStates(scene);
+    }
+    
+    async function generateQRCode(scene) {
+      const qrArea = document.getElementById('qr-area');
+
+      // シーン情報
+      const scenarios = {
+        identity: {
+          name: '本人確認',
+          data: '氏名、生年月日、住所'
+        },
+        age: {
+          name: '年齢認証',
+          data: '成人年齢の証明のみ'
+        }
+      };
+
+      // 実際のQRコード生成（データを簡略化）
+      const vpData = {
+        t: scene, // type -> t
+        ts: Math.floor(Date.now() / 1000), // timestamp -> ts (秒単位)
+        iss: "DID認証機構" // issuer -> iss
+      };
+
+      const qrDataString = JSON.stringify(vpData);
+      console.log('QRデータサイズ:', qrDataString.length, 'bytes');
+
+      // 500msのローディングを表示してからQRコード生成
+      await showLoadingFor(500);
+
+      // QRコード生成（qrcode-generatorライブラリ使用）
+      try {
+        const qr = qrcode(10, 'L'); // type: 10 (より大容量), error correction level: L (最小)
+        qr.addData(qrDataString);
+        qr.make();
+
+        // HTML形式でQRコード生成
+        const qrHTML = qr.createImgTag(4, 0); // cell size: 4, margin: 0
+        qrArea.innerHTML = qrHTML;
+        qrArea.className = 'bg-light border rounded mx-auto d-flex align-items-center justify-content-center';
+        qrArea.style.width = '300px';
+        qrArea.style.height = '300px';
+
+        // QRコード画像のスタイル調整
+        const img = qrArea.querySelector('img');
+        if (img) {
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.objectFit = 'contain';
+        }
+
+      } catch (error) {
+        console.error('QRコード生成エラー:', error);
+        qrArea.innerHTML = `
+          <div class="d-flex align-items-center justify-content-center h-100">
+            <div class="text-center text-danger">
+              <p class="mb-0">QRコード生成に失敗しました</p>
+            </div>
+          </div>
+        `;
+      }
+    }
+    
+    function updateButtonStates(selectedScene) {
+      // すべての選択ボタンをリセット
+      const buttons = document.querySelectorAll('button[onclick*="selectScene"]');
+      buttons.forEach(btn => {
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-outline-dark');
+        // チェックアイコンを非表示
+        const icon = btn.querySelector('.selected-icon');
+        if (icon) icon.style.display = 'none';
+      });
+
+      // 選択されたボタンのみをハイライト
+      const targetText = selectedScene === 'identity' ? '本人確認' : '年齢認証';
+      buttons.forEach(btn => {
+        if (btn.textContent.includes(targetText)) {
+          btn.classList.remove('btn-outline-dark');
+          btn.classList.add('btn-primary');
+          // チェックアイコンを表示
+          const icon = btn.querySelector('.selected-icon');
+          if (icon) icon.style.display = 'block';
+        }
+      });
+    }
+    
+    function resetSelection() {
+      selectedScenario = null;
+      
+      // QRエリアをリセット
+      document.getElementById('qr-area').innerHTML = `
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <div class="text-muted">
+            <p class="mb-2">QRコード</p>
+            <small>認証方式を選択すると生成されます</small>
+          </div>
+        </div>
+      `;
+      
+      
+      // ボタンの状態をリセット
+      const buttons = document.querySelectorAll('button[onclick*="selectScene"]');
+      buttons.forEach(btn => {
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-outline-dark');
+        // チェックアイコンを非表示
+        const icon = btn.querySelector('.selected-icon');
+        if (icon) icon.style.display = 'none';
+      });
+    }
+  </script>
+</body>
+</html>
