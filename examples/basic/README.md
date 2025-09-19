@@ -26,7 +26,7 @@ examples/basic/
 │   │   ├── verifier/
 │   │   │   └── index.js           # verifier/index.html用
 │   │   └── lib/
-│   │       └── loading.js         # 共通ローディング機能
+│   │       └── showLoadingFor.js  # 共通ローディング機能
 │   └── css/
 │       └── style.css              # スタイルシート
 ├── dist/                   # ビルド済みファイル（本番用）

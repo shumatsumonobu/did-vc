@@ -1,14 +1,14 @@
-import { showLoadingFor } from '../lib/loading.js';
+import showLoadingFor from '../lib/showLoadingFor.js';
 
-async function submitApplication() {
+const submitApplication = async () => {
   // フォームデータを取得
   const name = document.getElementById('fullName').value;
   const birth = document.getElementById('birthDate').value;
   const address = document.getElementById('address').value;
   const gender = document.querySelector('input[name="gender"]:checked').nextElementSibling.textContent;
 
-  // VC発行処理をシミュレート（1秒のローディング）
-  await showLoadingFor(1000);
+  // VC発行処理をシミュレート
+  await showLoadingFor();
 
   // VC内容を設定
   document.getElementById('vc-name').textContent = name;
@@ -25,7 +25,7 @@ async function submitApplication() {
   sessionStorage.setItem('applicationData', JSON.stringify({name, birth, address, gender}));
 }
 
-function resetApplication() {
+const resetApplication = () => {
   // 画面を切り替え
   document.getElementById('credentials-list').style.display = 'none';
   document.getElementById('application-form').style.display = 'block';
@@ -40,7 +40,7 @@ document.getElementById('submit-btn').addEventListener('click', submitApplicatio
 document.getElementById('reset-btn').addEventListener('click', resetApplication);
 
 // ページ読み込み時に状態を復元
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', () => {
   if (sessionStorage.getItem('applicationSubmitted') === 'true') {
     const data = JSON.parse(sessionStorage.getItem('applicationData') || '{}');
     if (data.name) {

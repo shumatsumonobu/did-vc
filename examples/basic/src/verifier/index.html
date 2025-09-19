@@ -27,12 +27,12 @@
             <div class="card-body">
               <div class="d-grid gap-3 mb-4">
                 <button class="btn btn-outline-dark text-start p-3" id="identity-scenario-btn" data-scenario="identity">
-                  <h6 class="mb-1 text-white-on-hover">本人確認認証</h6>
+                  <h6 class="mb-1 text-white-on-hover">本人確認</h6>
                   <small class="mb-0 text-muted text-white-on-hover">氏名・生年月日・住所を含む完全な身元認証を実行</small>
                 </button>
 
                 <button class="btn btn-outline-dark text-start p-3" id="age-scenario-btn" data-scenario="age">
-                  <h6 class="mb-1 text-white-on-hover">年齢認証アプリ</h6>
+                  <h6 class="mb-1 text-white-on-hover">年齢認証</h6>
                   <small class="mb-0 text-muted text-white-on-hover">成人年齢のみを認証（プライバシー保護・個人情報非開示）</small>
                 </button>
               </div>
@@ -40,8 +40,8 @@
               <!-- === 開発用テストボタン（本番時はコメントアウト） === -->
               <div class="mt-4">
                 <div class="d-grid gap-2">
-                  <button class="btn btn-outline-success btn-sm" id="test-success-btn">認証成功をテスト</button>
-                  <button class="btn btn-outline-danger btn-sm" id="test-failure-btn">認証失敗をテスト</button>
+                  <button class="btn btn-dark btn-sm" id="test-success-btn">成功テスト</button>
+                  <button class="btn btn-dark btn-sm" id="test-failure-btn">失敗テスト</button>
                 </div>
               </div>
               <!-- === 開発用テストボタン終了 === -->
@@ -57,9 +57,6 @@
               <h2 class="h5 mb-0">VPの認証</h2>
             </div>
             <div class="card-body">
-              <div class="alert alert-info mb-4">
-                選択された認証方式: <strong>本人確認認証</strong>
-              </div>
               
               <div class="text-center mb-4">
                 <div id="qr-reader" class="rounded border" style="width: 100%; max-width: 400px; margin: 0 auto; min-height: 300px; background-color: #000;"></div>
@@ -104,7 +101,7 @@
                 
                 <div class="row">
                   <div class="col-md-6">
-                    <p class="mb-2"><strong>認証方式:</strong> 本人確認認証</p>
+                    <p class="mb-2"><strong>認証方式:</strong> 本人確認</p>
                     <p class="mb-2"><strong>発行機関:</strong> DID認証機構</p>
                     <p class="mb-0"><strong>認証日時:</strong> 2024-01-15 14:30:34</p>
                   </div>

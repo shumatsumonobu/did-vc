@@ -209,3 +209,32 @@ body {
 body {
   padding-bottom: 80px;
 }
+
+/* SweetAlert2カスタムスタイル */
+.swal-custom-popup {
+  font-size: 0.8125rem !important;
+  font-family: var(--bs-body-font-family) !important;
+}
+
+.swal-custom-title {
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+}
+
+/* SweetAlert2ボタンを全幅表示 */
+.swal2-actions {
+  flex-direction: column !important;
+  width: 100% !important;
+  padding: 0 1rem !important;
+}
+
+.swal2-actions .btn.w-100 {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: none !important;
+}
+
+/* SweetAlert2内のpタグマージン調整 */
+.swal-custom-popup p {
+  margin-bottom: 0.25rem !important;
+}

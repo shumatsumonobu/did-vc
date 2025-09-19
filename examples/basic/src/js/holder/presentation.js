@@ -1,5 +1,5 @@
 import qrcode from 'qrcode-generator';
-import { showLoadingFor } from '../lib/loading.js';
+import showLoadingFor from '../lib/showLoadingFor.js';
 
 let selectedScenario = null;
 
@@ -8,7 +8,7 @@ document.getElementById('identity-btn').addEventListener('click', () => selectSc
 document.getElementById('age-btn').addEventListener('click', () => selectScene('age'));
 
 // ページ読み込み時にVC発行状態をチェック
-window.addEventListener('load', function() {
+window.addEventListener('load', () => {
   // QRCodeライブラリの読み込み確認
   if (typeof qrcode === 'undefined') {
     console.error('QRCodeライブラリが読み込まれていません');
@@ -20,7 +20,7 @@ window.addEventListener('load', function() {
   checkVCStatus();
 });
 
-function checkVCStatus() {
+const checkVCStatus = () => {
   const hasVC = sessionStorage.getItem('applicationSubmitted') === 'true';
 
   if (hasVC) {
@@ -34,7 +34,7 @@ function checkVCStatus() {
   }
 }
 
-function selectScene(scene) {
+const selectScene = (scene) => {
   selectedScenario = scene;
 
   // QRコード生成をシミュレート
@@ -44,7 +44,7 @@ function selectScene(scene) {
   updateButtonStates(scene);
 }
 
-async function generateQRCode(scene) {
+const generateQRCode = async (scene) => {
   const qrArea = document.getElementById('qr-area');
 
   // シーン情報
@@ -69,8 +69,8 @@ async function generateQRCode(scene) {
   const qrDataString = JSON.stringify(vpData);
   console.log('QRデータサイズ:', qrDataString.length, 'bytes');
 
-  // 500msのローディングを表示してからQRコード生成
-  await showLoadingFor(500);
+  // ローディングを表示してからQRコード生成
+  await showLoadingFor();
 
   // QRコード生成（qrcode-generatorライブラリ使用）
   try {
@@ -110,7 +110,7 @@ async function generateQRCode(scene) {
   }
 }
 
-function updateButtonStates(selectedScene) {
+const updateButtonStates = (selectedScene) => {
   // すべての選択ボタンをリセット
   const buttons = document.querySelectorAll('button[data-scene]');
   buttons.forEach(btn => {
@@ -126,7 +126,7 @@ function updateButtonStates(selectedScene) {
   }
 }
 
-function resetSelection() {
+const resetSelection = () => {
   selectedScenario = null;
 
   // QRエリアをリセット

@@ -7,12 +7,12 @@ console.log('Holder ホームページ読み込み完了');
 // - ショートカット機能
 // - DID管理機能
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
   // ページ初期化処理
   initializeHolderHome();
 });
 
-function initializeHolderHome() {
+const initializeHolderHome = () => {
   console.log('Holder ホームページ初期化中...');
 
   // 今後の拡張予定:

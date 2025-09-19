@@ -20,6 +20,7 @@
   "dependencies": {
     "bootstrap": "^5.3.8",
     "html5-qrcode": "^2.3.8",
-    "qrcode-generator": "^2.0.4"
+    "qrcode-generator": "^2.0.4",
+    "sweetalert2": "^11.23.0"
   }
 }

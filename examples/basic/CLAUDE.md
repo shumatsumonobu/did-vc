@@ -22,7 +22,7 @@ examples/basic/
 │   │   ├── verifier/
 │   │   │   └── index.js           # verifier/index.html用
 │   │   └── lib/
-│   │       └── loading.js         # 共通ローディング機能
+│   │       └── showLoadingFor.js  # 共通ローディング機能
 │   └── css/
 │       └── style.css              # スタイルシート
 ├── dist/                   # ビルド済みファイル（本番用）
@@ -97,7 +97,7 @@ examples/basic/
 
 ## Verifier画面仕様
 - **認証アプリ** (`src/verifier/index.html`):
-  - 認証シナリオ選択（本人確認認証・年齢認証アプリ）
+  - 認証シナリオ選択（本人確認・年齢認証）
   - リアカメラ自動起動によるQRスキャン
   - 認証結果表示（成功・失敗）
   - 開発用テストボタン
@@ -110,7 +110,7 @@ examples/basic/
 5. **QRコードは直接埋め込み** - 最大2-3KB
 
 ## 実装済み機能（モジュール化済み）
-- **共通機能** (`src/js/lib/loading.js`): ローディングアニメーション
+- **共通機能** (`src/js/lib/showLoadingFor.js`): ローディングアニメーション
 - **Holder機能** (`src/js/holder/`):
   - `index.js`: ホームページ初期化
   - `credentials.js`: VC発行申請・管理機能
@@ -123,7 +123,7 @@ examples/basic/
 ```html
 <script type="module">
   // 必要な機能をインポート
-  import { showLoadingFor } from '../js/lib/loading.js';
+  import showLoadingFor from '../js/lib/showLoadingFor.js';
   // ...
 </script>
 ```
@@ -209,12 +209,12 @@ npm run preview
 ### src/js/lib/配下のモジュール
 ```
 src/js/lib/
-└── loading.js    # 共通ローディング機能 (ES6 export)
+└── showLoadingFor.js    # 共通ローディング機能 (default export)
 ```
 
 ### 開発時の注意点
 1. **ES6モジュール**: `type="module"` スクリプトタグで読み込み
-2. **import文**: `src/js/` 配下の相対パス指定（`../js/lib/loading.js`）
+2. **import文**: `src/js/` 配下の相対パス指定（`../js/lib/showLoadingFor.js`）
 3. **ホットリロード**: ファイル保存で自動更新
 4. **ブラウザ対応**: モダンブラウザ必須（ES6対応）
 5. **統一された構造**: 全ソースファイル（HTML/JS/CSS）が `src/` ディレクトリ配下に統一
