@@ -187,6 +187,11 @@ npm run dev
 
 # プロダクション用ビルド
 npm run build
+
+# GitHub Pages用デプロイ（ワンコマンド）
+npm run deploy:docs
+# → ビルド実行 + docs/basic/ディレクトリにコピー
+# → GitHub Pages公開用ファイル準備完了
 # → dist/フォルダに本番用ファイル生成
 # → HTMLファイルが dist/holder/, dist/verifier/ に自動配置
 # → JS/CSSファイルが dist/assets/ に圧縮・バンドルされて配置
@@ -238,3 +243,25 @@ src/js/lib/
 4. **ブラウザ対応**: モダンブラウザ必須（ES6対応）
 5. **統一された構造**: 全ソースファイル（HTML/JS/CSS）が `src/` ディレクトリ配下に統一
 6. **ビルド**: `npm run build` で `dist/` に最適化されたファイルが自動生成
+7. **GitHub Pages**: `npm run deploy:docs` でワンコマンド公開準備
+
+## GitHub Pages公開方法
+
+### 公開手順
+```bash
+# examples/basic ディレクトリで実行
+npm run deploy:docs
+
+# コミット・プッシュ
+git add ../../docs/
+git commit -m "GitHub Pages用ビルドファイル更新"
+git push origin main
+```
+
+### Repository設定
+- Settings > Pages > Source: "Deploy from a branch"
+- Branch: main, Folder: `/docs`
+
+### 公開URL構造
+- プロジェクト: `https://username.github.io/did-vc/`
+- basicデモ: `https://username.github.io/did-vc/basic/`

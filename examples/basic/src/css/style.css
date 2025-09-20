@@ -40,9 +40,13 @@ body {
   font-size: 0.75rem;
 }
 
-/* text-mutedの色を濃く */
-.text-muted {
+/* text-mutedの色をテーマ別に調整 */
+[data-bs-theme="light"] .text-muted {
   color: #222 !important;
+}
+
+[data-bs-theme="dark"] .text-muted {
+  color: #cccccc !important;
 }
 
 /* モバイルでの下部マージン */
@@ -69,6 +73,11 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+}
+
+/* ダークテーマ用ローディングオーバーレイ */
+[data-bs-theme="dark"] .loading-overlay {
+  background: rgba(0, 0, 0, 0.7);
 }
 
 /* デジタルローディングアニメーション */
@@ -157,6 +166,23 @@ body {
   color: white !important;
 }
 
+/* ダークテーマでのボタンスタイル調整 */
+[data-bs-theme="dark"] .btn-outline-dark {
+  border-color: #6c757d;
+  color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .btn-outline-dark:hover {
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+  color: white !important;
+}
+
+[data-bs-theme="dark"] .btn-dark {
+  background-color: #495057;
+  border-color: #495057;
+}
+
 /* ホルダー専用フッターナビゲーション */
 .holder-footer {
   position: fixed;
@@ -166,6 +192,12 @@ body {
   background: white;
   border-top: 1px solid #e9ecef;
   z-index: 1000;
+}
+
+/* ダークテーマ用フッター */
+[data-bs-theme="dark"] .holder-footer {
+  background: var(--bs-card-bg);
+  border-top: 1px solid var(--bs-border-color);
 }
 
 .holder-nav {
@@ -238,3 +270,93 @@ body {
 .swal-custom-popup p {
   margin-bottom: 0.25rem !important;
 }
+
+/* ダークテーマでのSweetAlert2調整 */
+[data-bs-theme="dark"] .swal2-popup {
+  background-color: var(--bs-card-bg) !important;
+  color: var(--bs-body-color) !important;
+}
+
+[data-bs-theme="dark"] .swal2-title {
+  color: var(--bs-body-color) !important;
+}
+
+[data-bs-theme="dark"] .swal2-html-container {
+  color: var(--bs-body-color) !important;
+}
+
+[data-bs-theme="dark"] .swal2-html-container .text-muted {
+  color: #cccccc !important;
+}
+
+[data-bs-theme="dark"] .swal2-html-container .text-success {
+  color: #198754 !important;
+}
+
+[data-bs-theme="dark"] .swal2-html-container .text-danger {
+  color: #dc3545 !important;
+}
+
+
+/* ダークテーマでのQRエリア調整 */
+[data-bs-theme="dark"] .bg-light {
+  background-color: var(--bs-border-color) !important;
+}
+
+/* ダークテーマでのVCカード調整 */
+[data-bs-theme="dark"] .bg-white {
+  background-color: var(--bs-card-bg) !important;
+  color: var(--bs-body-color) !important;
+}
+
+[data-bs-theme="dark"] .bg-white .text-muted {
+  color: #cccccc !important;
+}
+
+/* ダークテーマでのVCカード全体の色調整 */
+[data-bs-theme="dark"] .vc-card {
+  background-color: #2d2d2d !important;
+  border-color: #4a4a4a !important;
+}
+
+/* VCカードの共通スタイル */
+.vc-card-header,
+.vc-card-body,
+.vc-card-footer {
+  background-color: #f1f3f4;
+  color: #000000;
+}
+
+/* ライトテーマでのVCカード */
+[data-bs-theme="light"] .vc-card {
+  background-color: #f8f9fa !important;
+  border-color: #dee2e6 !important;
+}
+
+.vc-card {
+  background-color: #f8f9fa !important;
+  border-color: #dee2e6 !important;
+}
+
+/* ダークテーマでのVCカード */
+[data-bs-theme="dark"] .vc-card-header,
+[data-bs-theme="dark"] .vc-card-body,
+[data-bs-theme="dark"] .vc-card-footer {
+  background-color: #3a3a3a !important;
+  color: var(--bs-body-color) !important;
+}
+
+[data-bs-theme="dark"] .vc-card .border-bottom,
+[data-bs-theme="dark"] .vc-card .border-top {
+  border-color: #555555 !important;
+}
+
+/* Bootstrap 5標準のCSS Custom Propertiesを使用したダークテーマ */
+[data-bs-theme="dark"] {
+  --bs-body-bg: #111111;
+  --bs-body-color: #ffffff;
+  --bs-card-bg: #1a1a1a;
+  --bs-card-color: #ffffff;
+  --bs-border-color: #343a40;
+}
+

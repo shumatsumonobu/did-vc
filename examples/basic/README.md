@@ -278,6 +278,12 @@ npm run build
 # → HTML/CSS/JSを圧縮・バンドル
 # → 本番環境にデプロイ可能な状態
 
+# GitHub Pages用デプロイ（ワンコマンド）
+npm run deploy:docs
+# → ビルド実行 + docs/basic/ディレクトリにコピー
+# → GitHub Pages公開用ファイル準備完了
+# → リポジトリのdocs/ディレクトリから公開設定
+
 # ビルド結果のプレビュー
 npm run preview
 # → http://localhost:4173 でビルド済みファイルを配信
@@ -299,6 +305,32 @@ npm run preview
 - **ES6モジュール**: import/export完全対応
 - **CORS問題解決**: HTTPプロトコルで動作
 - **高速起動**: Viteによる高速ビルド
+
+### GitHub Pages公開手順
+
+このデモをGitHub Pagesで公開する手順：
+
+```bash
+# 1. basicデモをビルドしてdocs/ディレクトリに配置
+cd examples/basic
+npm run deploy:docs
+
+# 2. Gitでコミット・プッシュ
+git add ../../docs/
+git commit -m "GitHub Pages用ビルドファイル更新"
+git push origin main
+```
+
+#### GitHub Repository設定
+1. Repository Settings > Pages
+2. Source: **Deploy from a branch**
+3. Branch: **main**
+4. Folder: **/ (root)** → **docs** に変更
+5. Save
+
+#### 公開URL
+- **プロジェクト説明**: `https://username.github.io/did-vc/`
+- **basicデモ**: `https://username.github.io/did-vc/basic/`
 
 ### 各コマンドの詳細
 

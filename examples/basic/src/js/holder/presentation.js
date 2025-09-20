@@ -102,8 +102,9 @@ const generateQRCode = async (scene) => {
     const qrHTML = qr.createImgTag(4, 0); // cell size: 4, margin: 0
     qrArea.innerHTML = qrHTML;
     qrArea.className = 'bg-light border rounded mx-auto d-flex align-items-center justify-content-center';
-    qrArea.style.width = '300px';
-    qrArea.style.height = '300px';
+    qrArea.style.maxWidth = '300px';
+    qrArea.style.width = '100%';
+    qrArea.style.aspectRatio = '1';
 
     // QRコード画像のスタイル調整
     const img = qrArea.querySelector('img');
@@ -153,29 +154,3 @@ const updateButtonStates = (selectedScene) => {
   }
 }
 
-/**
- * シナリオ選択とQRコード表示をリセットします。
- * QRエリアを初期状態に戻し、ボタンの状態もリセット。
- *
- * @returns {void}
- */
-const resetSelection = () => {
-  selectedScenario = null;
-
-  // QRエリアをリセット
-  document.getElementById('qr-area').innerHTML = `
-    <div class="d-flex align-items-center justify-content-center h-100">
-      <div class="text-muted">
-        <p class="mb-2">QRコード</p>
-        <small>認証方式を選択すると生成されます</small>
-      </div>
-    </div>
-  `;
-
-  // ボタンの状態をリセット
-  const buttons = document.querySelectorAll('button[data-scene]');
-  buttons.forEach(btn => {
-    btn.classList.remove('btn-primary');
-    btn.classList.add('btn-outline-dark');
-  });
-}

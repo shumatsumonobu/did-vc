@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DID/VC</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --dark-bg: #0a0e13;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.95);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --bs-body-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --heading-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --code-font-family: 'JetBrains Mono', 'Monaco', 'Menlo', 'Cascadia Code', 'Roboto Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--dark-bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+      font-family: var(--heading-font-family);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .display-5 {
+      font-family: var(--heading-font-family);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+    }
+
+    /* Animated background */
+    .bg-animated {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: var(--dark-bg);
+    }
+
+    .bg-animated::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(245, 87, 108, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(79, 172, 254, 0.05) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    /* Glass morphism effects */
+    .glass-card {
+      background: transparent;
+      backdrop-filter: none;
+      border: none;
+      border-radius: 20px;
+    }
+
+    /* Hero section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-title {
+      font-family: var(--heading-font-family);
+      font-size: 4rem;
+      font-weight: 700;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.5rem;
+      animation: slideInUp 1s ease-out;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      animation: slideInUp 1s ease-out 0.2s both;
+    }
+
+    .btn-gradient {
+      background: var(--primary-gradient);
+      border: none;
+      color: #000000;
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-gradient::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn-gradient:hover::before {
+      left: 100%;
+    }
+
+    .btn-gradient:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+      color: #000000;
+    }
+
+    /* Feature cards */
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      background: var(--accent-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    /* Demo section */
+    .demo-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .demo-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--primary-gradient);
+    }
+
+    .demo-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Tech stack badges */
+    .tech-badge {
+      background: var(--glass-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      font-size: 0.85rem;
+      margin: 0.25rem;
+      display: inline-block;
+    }
+
+    /* Architecture flow - 完全に静的 */
+    .flow-step {
+      background: transparent;
+      border: none;
+      border-radius: 15px;
+      padding: 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .flow-step::after {
+      content: '→';
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+    }
+
+    .flow-step:last-child::after {
+      display: none;
+    }
+
+    /* Animations */
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Code blocks */
+    .code-block {
+      border-radius: 10px;
+      font-family: var(--code-font-family);
+      font-size: 0.85rem;
+      overflow-x: auto;
+      font-feature-settings: "liga" 0;
+      -webkit-font-smoothing: auto;
+    }
+
+    .code-block pre {
+      margin: 0;
+      padding: 1rem;
+      background: transparent;
+      border: none;
+    }
+
+    .code-block code {
+      font-family: var(--code-font-family);
+      font-size: 0.85rem;
+    }
+
+    /* Mermaid diagram styling */
+    .mermaid {
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      padding: 1rem !important;
+      margin: 1rem 0;
+      width: 100% !important;
+    }
+
+    .mermaid svg {
+      background: transparent !important;
+      max-width: 100%;
+      width: 100% !important;
+      height: auto;
+    }
+
+    /* Hide gantt chart axis */
+    .mermaid .grid .tick {
+      display: none !important;
+    }
+    
+    .mermaid .grid path {
+      display: none !important;
+    }
+    
+    .mermaid .x-axis {
+      display: none !important;
+    }
+
+    /* Progress bars */
+    .progress {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    .progress-bar {
+      border-radius: 10px;
+    }
+
+    /* Links styling */
+    a {
+      color: #1d9bf0;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #1d9bf0;
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    .footer {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--dark-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-gradient);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #7c8aed 0%, #8b5dbf 100%);
+    }
+
+    /* Code block specific scrollbar */
+    .code-block::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .code-block::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 2px;
+    }
+
+    .code-block::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+    }
+
+    .code-block::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .flow-step::after {
+        content: '↓';
+        right: 50%;
+        top: 100%;
+        transform: translateX(50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animated"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: rgba(15, 20, 25, 0.9); backdrop-filter: blur(20px);">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        DID/VC技術
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#overview">概要</a></li>
+          <li class="nav-item"><a class="nav-link" href="#demos">デモ体験</a></li>
+          <li class="nav-item"><a class="nav-link" href="#architecture">アーキテクチャ</a></li>
+          <li class="nav-item"><a class="nav-link" href="#technical">技術詳細</a></li>
+          <li class="nav-item"><a class="nav-link" href="#implementation">実装ガイド</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8 mx-auto text-center">
+          <h1 class="hero-title">DID/VC<br>技術</h1>
+          <p class="hero-subtitle">
+            W3C標準に準拠したDecentralized Identity（DID）とVerifiable Credentials（VC）の<br>
+            実装リファレンスと技術検証プラットフォーム
+          </p>
+          <div class="d-flex gap-3 flex-wrap justify-content-center">
+            <a href="#demos" class="btn-gradient">
+              <i class="fas fa-play me-2"></i>デモを体験
+            </a>
+            <a href="https://github.com/takuya-motoshima/did-vc" class="btn-gradient">
+              <i class="fab fa-github me-2"></i>GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview Section -->
+  <section id="overview" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5 animate-on-scroll">
+        <h2 class="display-5 fw-bold mb-3">DID/VCとは</h2>
+        <p class="lead">
+          個人がデジタルアイデンティティを完全に自己管理し、必要な情報のみを選択的に開示できる分散型認証基盤
+        </p>
+      </div>
+
+      <!-- Comparison Diagram -->
+      <div class="row mb-5 animate-on-scroll">
+        <div class="col-12">
+          <div class="glass-card p-4">
+            <h4 class="text-center mb-4">従来システム vs DID/VC比較</h4>
+            <div class="mermaid">
+graph LR
+    subgraph Traditional["従来システム"]
+        A1[ユーザ] --> B1[中央認証サーバ]
+        B1 --> C1[サービス1]
+        B1 --> C2[サービス2]
+        B1 --> C3[サービス3]
+        B1 -.-> D1[全情報開示必須]
+        B1 -.-> D2[ベンダーロックイン]
+    end
+    
+    subgraph DIDVC["DID/VCシステム"]
+        A2[Holder] 
+        I[Issuer]
+        V1[Verifier1]
+        V2[Verifier2]
+        V3[Verifier3]
+        
+        I -.-> |VC発行| A2
+        A2 -.-> |VP提示| V1
+        A2 -.-> |VP提示| V2
+        A2 -.-> |VP提示| V3
+        A2 -.-> D3[選択的開示]
+        A2 -.-> D4[自己管理]
+    end
+            </div>
+            <p class="text-center small text-light mt-2 mb-0">※ 実際の認証フローは概念的に簡略化して表示</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-3 animate-on-scroll">
+          <div class="glass-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto">
+              <i class="fas fa-user-shield"></i>
+            </div>
+            <h5>自己主権型</h5>
+            <p class="mb-0">中央機関に依存せず完全にコントロール</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 animate-on-scroll">
+          <div class="glass-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto">
+              <i class="fas fa-eye"></i>
+            </div>
+            <h5>プライバシー保護</h5>
+            <p class="mb-0">必要最小限の情報のみを選択的に開示</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 animate-on-scroll">
+          <div class="glass-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <h5>検証可能</h5>
+            <p class="mb-0">暗号学的証明により真正性を保証</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 animate-on-scroll">
+          <div class="glass-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto">
+              <i class="fas fa-exchange-alt"></i>
+            </div>
+            <h5>相互運用性</h5>
+            <p class="mb-0">W3C標準準拠で異システム間連携</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 animate-on-scroll">
+        <div class="col-lg-6">
+          <div class="glass-card p-4 h-100">
+            <h4 class="mb-3">従来システムとの違い</h4>
+            <div class="row g-3">
+              <div class="col-6">
+                <h6 class="text-center mb-3">従来方式</h6>
+                <ul class="list-unstyled small">
+                  <li>• 中央集権型認証基盤</li>
+                  <li>• プラットフォーム事業者によるデータ独占</li>
+                  <li>• 全属性情報の一括開示</li>
+                  <li>• ベンダーロックイン問題</li>
+                </ul>
+              </div>
+              <div class="col-6">
+                <h6 class="text-center mb-3">DID/VC</h6>
+                <ul class="list-unstyled small">
+                  <li>• 分散型認証基盤</li>
+                  <li>• 利用者による完全な自己管理</li>
+                  <li>• 選択的属性開示</li>
+                  <li>• 標準準拠による相互運用性</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="glass-card p-4 h-100">
+            <h4 class="mb-3">主要な利用場面</h4>
+            <div class="mb-3">
+              <h6><i class="fas fa-graduation-cap me-2"></i>学術・資格認証</h6>
+              <p class="small mb-0">学位、専門資格、研修修了証明の偽造防止と迅速な検証</p>
+            </div>
+            <div class="mb-3">
+              <h6><i class="fas fa-briefcase me-2"></i>職歴・スキル証明</h6>
+              <p class="small mb-0">職務経歴、技能認定の信頼性確保と転職時の効率化</p>
+            </div>
+            <div class="mb-3">
+              <h6><i class="fas fa-shield-alt me-2"></i>年齢・資格確認</h6>
+              <p class="small mb-0">具体的な年齢を開示せずに成人証明や資格要件の確認</p>
+            </div>
+            <div>
+              <h6><i class="fas fa-id-card me-2"></i>公的証明書</h6>
+              <p class="small mb-0">政府発行の身分証明書、住民票、印鑑証明のデジタル化</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Section -->
+  <section id="demos" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5 animate-on-scroll">
+        <h2 class="display-5 fw-bold mb-3">デモ体験</h2>
+        <p class="lead">実際に動くデモでDID/VCの仕組みを体験</p>
+      </div>
+
+      <div class="row">
+        <div class="col-12 animate-on-scroll">
+          <div class="demo-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <h3 class="mb-3">Basic Demo</h3>
+                <p class="mb-3">
+                  VC発行からVP提示、検証まで一通りの流れを体験するシンプルなデモ
+                </p>
+                
+                <div class="mb-3">
+                  <h6 class="mb-2">体験できる機能</h6>
+                  <span class="tech-badge">VC発行</span>
+                  <span class="tech-badge">VP生成</span>
+                  <span class="tech-badge">QR認証</span>
+                  <span class="tech-badge">選択的開示</span>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <a href="basic/" class="btn-gradient btn-lg">
+                  <i class="fas fa-rocket me-2"></i>デモを開始
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-12 animate-on-scroll">
+          <div class="demo-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <h3 class="mb-3">追加デモ（開発予定）</h3>
+                <p class="mb-3">
+                  より高度なDID/VC機能を体験できる追加デモを開発中
+                </p>
+                
+                <div class="mb-3">
+                  <h6 class="mb-2">開発予定機能</h6>
+                  <span class="tech-badge">ブロックチェーン統合</span>
+                  <span class="tech-badge">Zero-Knowledge Proofs</span>
+                  <span class="tech-badge">BBS+ Signatures</span>
+                  <span class="tech-badge">DID Methods</span>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <span class="btn-gradient btn-lg" style="opacity: 0.5; cursor: not-allowed;">
+                  <i class="fas fa-clock me-2"></i>開発中
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Section -->
+  <section id="architecture" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5 animate-on-scroll">
+        <h2 class="display-5 fw-bold mb-3">アーキテクチャ</h2>
+        <p class="lead">DID/VCエコシステムの三つの主要な役割</p>
+      </div>
+
+      <!-- Architecture Triangle Diagram -->
+      <div class="row mb-5 animate-on-scroll">
+        <div class="col-12">
+          <div class="glass-card p-4">
+            <h4 class="text-center mb-4">DID/VCアーキテクチャ関係図</h4>
+            <div class="mermaid">
+graph TD
+    H[Holder<br/>証明書保有者] 
+    I[Issuer<br/>証明書発行者]
+    V[Verifier<br/>証明書検証者]
+    
+    H -.-> |1. 証明書申請| I
+    I -.-> |2. VC発行| H
+    H -.-> |3. VP提示| V
+    V -.-> |4. 検証結果| H
+    
+    I -.-> |信頼関係| V
+    
+    style H fill:#374151,stroke:#6b7280,stroke-width:1px,color:#ffffff
+    style I fill:#374151,stroke:#6b7280,stroke-width:1px,color:#ffffff
+    style V fill:#374151,stroke:#6b7280,stroke-width:1px,color:#ffffff
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-5">
+        <div class="col-md-4 animate-on-scroll">
+          <div class="glass-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto">
+              <i class="fas fa-user"></i>
+            </div>
+            <h4>Holder</h4>
+            <p class="mb-3">証明書保有者。DIDを生成・管理し、VCを保管。認証時にVPを生成・提示</p>
+            <ul class="list-unstyled small">
+              <li><i class="fas fa-check text-success me-2"></i>DID生成・管理</li>
+              <li><i class="fas fa-check text-success me-2"></i>VC保管</li>
+              <li><i class="fas fa-check text-success me-2"></i>VP生成・提示</li>
+              <li><i class="fas fa-check text-success me-2"></i>QRコード認証</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4 animate-on-scroll">
+          <div class="glass-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto">
+              <i class="fas fa-certificate"></i>
+            </div>
+            <h4>Issuer</h4>
+            <p class="mb-3">証明書発行者。信頼ある機関として、VCを発行しデジタル署名で真正性を保証</p>
+            <ul class="list-unstyled small">
+              <li><i class="fas fa-check text-success me-2"></i>VC発行</li>
+              <li><i class="fas fa-check text-success me-2"></i>デジタル署名</li>
+              <li><i class="fas fa-check text-success me-2"></i>証明書管理</li>
+              <li><i class="fas fa-check text-success me-2"></i>公開鍵配布</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4 animate-on-scroll">
+          <div class="glass-card p-4 h-100 text-center">
+            <div class="feature-icon mx-auto">
+              <i class="fas fa-search"></i>
+            </div>
+            <h4>Verifier</h4>
+            <p class="mb-3">証明書検証者。提示されたVPの真正性を検証し、証明書の有効性を判定</p>
+            <ul class="list-unstyled small">
+              <li><i class="fas fa-check text-success me-2"></i>VP検証</li>
+              <li><i class="fas fa-check text-success me-2"></i>署名確認</li>
+              <li><i class="fas fa-check text-success me-2"></i>属性検証</li>
+              <li><i class="fas fa-check text-success me-2"></i>失効確認</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flow Diagram -->
+      <div class="animate-on-scroll mb-5">
+        <div class="glass-card p-4">
+          <h3 class="text-center mb-4">VC発行から検証までの詳細フロー</h3>
+          <div class="mermaid">
+sequenceDiagram
+    participant H as Holder
+    participant I as Issuer
+    participant V as Verifier
+    
+    Note over H: 1. DID生成フェーズ
+    H->>H: 鍵ペア生成
+    H->>H: DID作成
+    H->>H: DID Document作成
+    
+    Note over H,I: 2. VC発行フェーズ
+    H->>I: 証明書発行申請
+    I->>I: 本人確認・審査
+    I->>I: VC生成・署名
+    I->>H: VC送付
+    H->>H: VC保存
+    
+    Note over H,V: 3. VP提示フェーズ
+    V->>H: 認証要求
+    H->>H: 必要属性選択
+    H->>H: VP生成・署名
+    H->>V: VP提示(QR等)
+    
+    Note over V: 4. 検証フェーズ
+    V->>V: VP構造検証
+    V->>V: 署名検証
+    V->>V: 発行者信頼性確認
+    V->>H: 検証結果通知
+          </div>
+        </div>
+      </div>
+
+      <!-- Simple Flow Steps -->
+      <div class="animate-on-scroll">
+        <h4 class="text-center mb-4">簡易フローステップ</h4>
+        <div class="row g-3">
+          <div class="col-md-3">
+            <div class="flow-step">
+              <div class="feature-icon mx-auto mb-2" style="width: 40px; height: 40px; font-size: 1rem;">
+                <i class="fas fa-key"></i>
+              </div>
+              <h6>DID生成</h6>
+              <p class="small mb-0">鍵ペア生成、DID作成、レジストリ登録</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="flow-step">
+              <div class="feature-icon mx-auto mb-2" style="width: 40px; height: 40px; font-size: 1rem;">
+                <i class="fas fa-certificate"></i>
+              </div>
+              <h6>VC発行</h6>
+              <p class="small mb-0">申請、審査、VC生成・署名、送付</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="flow-step">
+              <div class="feature-icon mx-auto mb-2" style="width: 40px; height: 40px; font-size: 1rem;">
+                <i class="fas fa-qrcode"></i>
+              </div>
+              <h6>VP提示</h6>
+              <p class="small mb-0">認証要求、属性選択、VP生成、QR提示</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="flow-step">
+              <div class="feature-icon mx-auto mb-2" style="width: 40px; height: 40px; font-size: 1rem;">
+                <i class="fas fa-check"></i>
+              </div>
+              <h6>VP検証</h6>
+              <p class="small mb-0">構造検証、署名検証、属性確認</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Details Section -->
+  <section id="technical" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5 animate-on-scroll">
+        <h2 class="display-5 fw-bold mb-3">技術詳細</h2>
+        <p class="lead">実装で使用している暗号技術と国際標準への準拠状況</p>
+      </div>
+
+      <!-- Basic Specifications -->
+      <div class="row g-4 mb-5">
+        <div class="col-md-6 animate-on-scroll">
+          <div class="glass-card p-4 h-100">
+            <h5 class="mb-3">データ形式・標準</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <strong>DID:</strong> did:key方式、
+                <a href="https://ed25519.cr.yp.to/" target="_blank" class="text-decoration-none mx-1">Ed25519</a>
+                楕円曲線暗号
+                <br><small class="text-light">高性能なEdDSA署名アルゴリズムを採用</small>
+              </li>
+              <li class="mb-2"><strong>VC/VP:</strong> JSON-LD形式、W3C勧告準拠</li>
+              <li class="mb-2"><strong>証明形式:</strong> Linked Data Proofs、JWS両対応</li>
+              <li class="mb-2"><strong>署名方式:</strong> EdDSA、ECDSA P-256</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6 animate-on-scroll">
+          <div class="glass-card p-4 h-100">
+            <h5 class="mb-3">セキュリティ・暗号</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2"><strong>デジタル署名:</strong> Ed25519、ECDSA P-256、RSA</li>
+              <li class="mb-2"><strong>ハッシュ関数:</strong> SHA-256、SHA-3、BLAKE2b</li>
+              <li class="mb-2"><strong>鍵管理:</strong> ローカルストレージ（検証用）</li>
+              <li class="mb-2">
+                <strong>本番推奨:</strong> 
+                <a href="https://en.wikipedia.org/wiki/Hardware_security_module" target="_blank" class="text-decoration-none mx-1">HSM</a>、
+                <a href="https://developer.arm.com/documentation/102418/0100/What-is-a-Trusted-Execution-Environment--TEE--" target="_blank" class="text-decoration-none mx-1">TEE</a>
+                による秘密鍵保護
+                <br><small class="text-light">HSM: 専用ハードウェアによる鍵の物理的保護<br>
+                TEE: プロセッサ内蔵の信頼できる実行環境</small>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- DID Methods Comparison -->
+      <div class="animate-on-scroll mb-5">
+        <div class="glass-card p-4">
+          <h5 class="mb-4">DID Methods比較図</h5>
+          <div class="mermaid">
+graph TB
+    subgraph Methods["DID Methods"]
+        Key["did:key<br/>オフライン生成<br/>シンプル・高速"]
+        Web["did:web<br/>DNS基盤<br/>既存PKI活用"]
+        Ethr["did:ethr<br/>Ethereum<br/>スマートコントラクト"]
+        ION["did:ion<br/>Bitcoin Layer2<br/>Sidetree Protocol"]
+    end
+    
+    subgraph Characteristics["特徴"]
+        Simple[シンプル]
+        Scalable[スケーラブル]
+        Decentralized[分散型]
+        Enterprise[エンタープライズ]
+    end
+    
+    Key -.-> Simple
+    Web -.-> Enterprise
+    Ethr -.-> Decentralized
+    ION -.-> Scalable
+    
+    style Key fill:#374151,stroke:#6b7280,stroke-width:1px,color:#ffffff
+    style Web fill:#374151,stroke:#6b7280,stroke-width:1px,color:#ffffff
+    style Ethr fill:#374151,stroke:#6b7280,stroke-width:1px,color:#ffffff
+    style ION fill:#374151,stroke:#6b7280,stroke-width:1px,color:#ffffff
+          </div>
+          <div class="row g-3 mt-3">
+            <div class="col-lg-3 col-md-6">
+              <div class="glass-card p-3 text-center">
+                <h6 class="mb-2">did:key</h6>
+                <p class="small mb-2">公開鍵直接埋込方式、オフライン生成、軽量実装</p>
+                <small class="text-light">暗号化：Ed25519、secp256k1</small>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="glass-card p-3 text-center">
+                <h6 class="mb-2">did:web</h6>
+                <p class="small mb-2">既存DNS/PKI基盤活用、企業導入容易</p>
+                <small class="text-light">基盤：DNS + HTTPS証明書</small>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="glass-card p-3 text-center">
+                <h6 class="mb-2">did:ethr</h6>
+                <p class="small mb-2">Ethereum基盤、スマートコントラクト管理</p>
+                <small class="text-light">標準：ERC-1056準拠</small>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="glass-card p-3 text-center">
+                <h6 class="mb-2">did:ion</h6>
+                <p class="small mb-2">Bitcoin Layer2、高スケーラビリティ</p>
+                <small class="text-light">実装：Microsoft ION Network</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="animate-on-scroll mb-5">
+        <div class="glass-card p-4">
+          <h5 class="mb-4">本プロジェクトでのW3C標準対応状況</h5>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <h6 class="mb-2">
+                <a href="https://www.w3.org/TR/did-core/" target="_blank" class="text-decoration-none">DIDコア仕様 1.0（DID Core 1.0）</a>
+              </h6>
+              <span class="badge" style="background-color: #4b5563; color: #ffffff;" class="mb-2">実装済み</span>
+              <p class="small text-light mb-0">did:key方式による基本的なDID生成・管理機能</p>
+            </div>
+            <div class="col-md-6">
+              <h6 class="mb-2">
+                <a href="https://www.w3.org/TR/vc-data-model/" target="_blank" class="text-decoration-none">検証可能証明書データモデル 1.1（VC Data Model 1.1）</a>
+              </h6>
+              <span class="badge" style="background-color: #4b5563; color: #ffffff;" class="mb-2">フル対応</span>
+              <p class="small text-light mb-0">JSON-LD形式によるVC発行・検証・提示機能</p>
+            </div>
+            <div class="col-md-6">
+              <h6 class="mb-2">
+                <a href="https://w3c-ccg.github.io/did-resolution/" target="_blank" class="text-decoration-none">DID解決仕様（DID Resolution）</a>
+              </h6>
+              <span class="badge" style="background-color: #6b7280; color: #ffffff;" class="mb-2">部分実装</span>
+              <p class="small text-light mb-0">did:key方式のみ対応、他のDID Methodsは今後追加予定</p>
+            </div>
+            <div class="col-md-6">
+              <h6 class="mb-2">
+                <a href="https://www.w3.org/TR/vc-data-model/#presentations" target="_blank" class="text-decoration-none">検証可能提示データモデル（VP Data Model）</a>
+              </h6>
+              <span class="badge" style="background-color: #4b5563; color: #ffffff;" class="mb-2">対応済み</span>
+              <p class="small text-light mb-0">選択的開示機能を含むVP生成・検証機能</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Structure Diagram -->
+      <div class="animate-on-scroll mb-5">
+        <div class="glass-card p-4">
+          <h5 class="mb-4">データ構造関係図</h5>
+          <div class="mermaid">
+graph TD
+    subgraph DID_Doc["DID Document"]
+        DID["DID<br/>did:key:z6Mk..."]
+        VM["Verification Method<br/>公開鍵情報"]
+        Auth["Authentication<br/>認証方法"]
+    end
+    
+    subgraph VC_Structure["Verifiable Credential"]
+        Context["@context<br/>JSON-LD"]
+        Type["type<br/>VerifiableCredential"]
+        Issuer["issuer<br/>発行者DID"]
+        Subject["credentialSubject<br/>証明内容"]
+        Proof1["proof<br/>デジタル署名"]
+    end
+    
+    subgraph VP_Structure["Verifiable Presentation"]
+        Context2["@context<br/>JSON-LD"]
+        Type2["type<br/>VerifiablePresentation"]
+        VC["verifiableCredential<br/>提示するVC"]
+        Proof2["proof<br/>Holder署名"]
+    end
+    
+    DID --> Issuer
+    DID --> Subject
+    VC_Structure --> VC
+    VM --> Proof1
+    VM --> Proof2
+          </div>
+          <div class="row g-4 mt-3">
+            <div class="col-lg-6">
+              <h6 class="mb-3">DID Document例</h6>
+              <div class="code-block">
+                <pre><code class="json">{
+  "@context": "https://www.w3.org/ns/did/v1",
+  "id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "verificationMethod": [{
+    "type": "Ed25519VerificationKey2020",
+    "controller": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  }]
+}</code></pre>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <h6 class="mb-3">VC例</h6>
+              <div class="code-block">
+                <pre><code class="json">{
+  "@context": ["https://www.w3.org/2018/credentials/v1"],
+  "type": ["VerifiableCredential"],
+  "issuer": "did:demo:issuer-001",
+  "credentialSubject": {
+    "id": "did:key:z6Mk...",
+    "name": "山田太郎",
+    "birthDate": "1985-04-15"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "jws": "eyJ0eXAiOiJKV1Q..."
+  }
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Implementation Guide Section -->
+  <section id="implementation" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5 animate-on-scroll">
+        <h2 class="display-5 fw-bold mb-3">実装ガイド</h2>
+        <p class="lead">実稼働環境への移行と導入戦略</p>
+      </div>
+
+      <!-- Implementation Roadmap -->
+      <div class="row mb-5">
+        <div class="col-md-6 animate-on-scroll">
+          <div class="glass-card p-4 h-100">
+            <h5 class="mb-3">段階的導入戦略</h5>
+            <div class="mb-3">
+              <h6><i class="fas fa-building me-2"></i>Phase 1: 社内導入</h6>
+              <ul class="list-unstyled small">
+                <li>• 社員認証システムとの統合</li>
+                <li>• アクセス管理の統一化</li>
+                <li>• パイロット運用・フィードバック収集</li>
+              </ul>
+            </div>
+            <div class="mb-3">
+              <h6><i class="fas fa-handshake me-2"></i>Phase 2: パートナー連携</h6>
+              <ul class="list-unstyled small">
+                <li>• 取引先企業との相互認証</li>
+                <li>• サプライチェーン管理</li>
+                <li>• 業界標準化への参加</li>
+              </ul>
+            </div>
+            <div>
+              <h6><i class="fas fa-globe me-2"></i>Phase 3: 公的機関連携</h6>
+              <ul class="list-unstyled small">
+                <li>• 政府・自治体システムとの統合</li>
+                <li>• 国際的な相互運用性確保</li>
+                <li>• 大規模展開・運用最適化</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 animate-on-scroll">
+          <div class="glass-card p-4 h-100">
+            <h5 class="mb-3">技術要件・課題</h5>
+            <div class="mb-3">
+              <h6><i class="fas fa-server me-2"></i>インフラ要件</h6>
+              <ul class="list-unstyled small">
+                <li>• 分散台帳基盤（Ethereum、Hyperledger Indy等）</li>
+                <li>• DIDレジストリ（Universal Resolver対応）</li>
+                <li>• デジタルウォレット（モバイル・ブラウザ拡張）</li>
+                <li>• 証明書失効管理（Status List 2023準拠）</li>
+              </ul>
+            </div>
+            <div class="mb-3">
+              <h6><i class="fas fa-shield-alt me-2"></i>セキュリティ考慮</h6>
+              <ul class="list-unstyled small">
+                <li>• <a href="https://en.wikipedia.org/wiki/Hardware_security_module" target="_blank" class="text-decoration-none mx-1">HSM</a>・<a href="https://developer.arm.com/documentation/102418/0100/What-is-a-Trusted-Execution-Environment--TEE--" target="_blank" class="text-decoration-none mx-1">TEE</a>による暗号鍵管理</li>
+                <li>• 耐量子暗号への段階的移行準備</li>
+                <li>• ゼロトラスト・セキュリティモデル</li>
+              </ul>
+            </div>
+            <div>
+              <h6><i class="fas fa-balance-scale me-2"></i>法的・社会的対応</h6>
+              <ul class="list-unstyled small">
+                <li>• GDPR等プライバシー規制への対応</li>
+                <li>• 各国法制度・規制要件への適合</li>
+                <li>• 利用者教育・普及啓発活動</li>
+                <li>• アクセシビリティ・インクルーシブデザイン</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="animate-on-scroll">
+        <div class="glass-card p-4">
+          <h5 class="mb-3">関連技術・プロジェクト</h5>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <h6><i class="fas fa-link me-2"></i>標準化団体・仕様</h6>
+              <ul class="list-unstyled small">
+                <li>• <a href="https://www.w3.org/groups/wg/did/" target="_blank" class="text-decoration-none">W3C DID/VCワーキンググループ</a></li>
+                <li>• <a href="https://www.w3.org/TR/did-core/" target="_blank" class="text-decoration-none">W3C DIDコア仕様</a></li>
+                <li>• <a href="https://www.w3.org/TR/vc-data-model/" target="_blank" class="text-decoration-none">W3C検証可能証明書データモデル</a></li>
+                <li>• <a href="https://identity.foundation/" target="_blank" class="text-decoration-none">分散アイデンティティ財団</a></li>
+                <li>• <a href="https://trustoverip.org/" target="_blank" class="text-decoration-none">Trust Over IP財団</a></li>
+                <li>• <a href="https://openid.net/" target="_blank" class="text-decoration-none">OpenID財団</a></li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <h6><i class="fas fa-tools me-2"></i>主要実装</h6>
+              <ul class="list-unstyled small">
+                <li>• <a href="https://identity.foundation/ion/" target="_blank" class="text-decoration-none">マイクロソフトION</a></li>
+                <li>• <a href="https://www.hyperledger.org/projects/aries" target="_blank" class="text-decoration-none">Hyperledger Aries</a>/<a href="https://www.hyperledger.org/projects/hyperledger-indy" target="_blank" class="text-decoration-none">Indy</a></li>
+                <li>• <a href="https://www.evernym.com/" target="_blank" class="text-decoration-none">Evernymsプラットフォーム</a></li>
+                <li>• <a href="https://sovrin.org/" target="_blank" class="text-decoration-none">Sovrinネットワーク</a></li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <h6><i class="fas fa-globe me-2"></i>導入事例</h6>
+              <ul class="list-unstyled small">
+                <li>• <a href="https://e-resident.gov.ee/" target="_blank" class="text-decoration-none">エストニア電子居住権</a></li>
+                <li>• <a href="https://ec.europa.eu/digital-building-blocks/wikis/display/EBSI/" target="_blank" class="text-decoration-none">EU欧州ブロックチェーン・サービス基盤</a></li>
+                <li>• <a href="https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/digital-credentials.html" target="_blank" class="text-decoration-none">カナダ・デジタル証明書</a></li>
+                <li>• <a href="https://www.digital.go.jp/" target="_blank" class="text-decoration-none">日本デジタル庁</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5 animate-on-scroll">
+        <h2 class="display-5 fw-bold mb-3">About</h2>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-6 animate-on-scroll">
+          <div class="glass-card p-4 text-center">
+            <img src="https://avatars.githubusercontent.com/u/11953526?v=4" 
+                 alt="週末ものづくり部" 
+                 class="rounded-circle mb-3" 
+                 style="width: 80px; height: 80px; object-fit: cover;">
+            
+            <h5 class="mb-2">週末ものづくり部</h5>
+            <p class="small text-light mb-3">
+              平日は会社員エンジニア、個人では別ジャンルの事業をゆるっと運営中。AIでやりたかったことに挑戦中。
+            </p>
+            
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+              <a href="https://zenn.dev/helloworld" target="_blank" class="small">
+                <i class="fas fa-book me-1"></i>Zenn
+              </a>
+              <a href="https://github.com/takuya-motoshima/" target="_blank" class="small">
+                <i class="fab fa-github me-1"></i>GitHub
+              </a>
+              <a href="https://www.npmjs.com/~takuya-motoshima" target="_blank" class="small">
+                <i class="fab fa-npm me-1"></i>npm
+              </a>
+              <a href="https://x.com/takuya_motech" target="_blank" class="small">
+                <i class="fab fa-twitter me-1"></i>Twitter
+              </a>
+              <a href="https://www.facebook.com/takuya.motoshima.7" target="_blank" class="small">
+                <i class="fab fa-facebook me-1"></i>Facebook
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer py-4">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <p class="mb-0">&copy; 2025 DID/VC技術</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <a href="https://github.com/takuya-motoshima/did-vc" class="text-decoration-none">
+            <i class="fab fa-github me-1"></i>GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.0/dist/mermaid.min.js"></script>
+  <script>
+    // Initialize Mermaid
+    mermaid.initialize({
+      theme: 'dark',
+      themeVariables: {
+        // 統一カラーパレット
+        primaryColor: '#374151',           // メインボックス背景
+        primaryTextColor: '#ffffff',       // メインテキスト
+        primaryBorderColor: '#6b7280',     // メインボーダー
+        
+        // 全てのボックス背景を統一
+        mainBkg: '#374151',
+        secondBkg: '#374151', 
+        tertiaryColor: '#374151',
+        nodeBkg: '#374151',
+        node0: '#374151',
+        node1: '#374151',
+        node2: '#374151',
+        node3: '#374151',
+        
+        // 全てのボーダーを統一（1px）
+        lineColor: '#6b7280',
+        border1: '#6b7280',
+        border2: '#6b7280',
+        nodeBorder: '#6b7280',
+        
+        // ボーダー太さの統一
+        primaryBorderThickness: '1px',
+        secondaryBorderThickness: '1px',
+        tertiaryBorderThickness: '1px',
+        
+        // クラスター（囲み枠）の統一
+        clusterBkg: 'rgba(55, 65, 81, 0.3)',
+        clusterBorder: '#6b7280',
+        
+        // 全体背景
+        background: '#1f2937',
+        darkMode: true,
+        
+        // テキスト色の統一
+        textColor: '#ffffff',
+        edgeLabelBackground: '#374151',
+        
+        // シーケンス図の統一
+        actorBkg: '#374151',
+        actorBorder: '#6b7280',
+        actorTextColor: '#ffffff',
+        actorLineColor: '#6b7280',
+        signalColor: '#6b7280',
+        signalTextColor: '#ffffff',
+        messageLine0: '#6b7280',
+        messageLine1: '#6b7280',
+        messageText0: '#ffffff',
+        messageText1: '#ffffff',
+        loopTextColor: '#ffffff',
+        noteBkgColor: '#374151',
+        noteBorderColor: '#6b7280',
+        noteTextColor: '#ffffff',
+        activationBkgColor: '#4b5563',
+        activationBorderColor: '#6b7280',
+        
+        // ガントチャートの統一
+        sectionBkgColor: '#374151',
+        altSectionBkgColor: '#4b5563',
+        gridColor: '#6b7280',
+        section0: '#374151',
+        section1: '#4b5563',
+        section2: '#6b7280',
+        section3: '#9ca3af',
+        taskBkgColor: '#4b5563',
+        taskTextColor: '#ffffff',
+        taskTextLightColor: '#ffffff',
+        taskTextOutsideColor: '#ffffff',
+        taskTextClickableColor: '#ffffff',
+        activeTaskBkgColor: '#6366f1',
+        activeTaskBorderColor: '#6b7280',
+        doneTaskBkgColor: '#10b981',
+        doneTaskBorderColor: '#6b7280',
+        critBkgColor: '#ef4444',
+        critBorderColor: '#6b7280',
+        todayLineColor: '#f59e0b',
+        
+        // 軸の非表示
+        cScale0: 'transparent',
+        cScale1: 'transparent',
+        cScale2: 'transparent',
+        
+        // フォント設定
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '13px'
+      }
+    });
+
+    // Initialize highlight.js
+    hljs.highlightAll();
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with animate-on-scroll class
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Navbar background on scroll
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.background = 'rgba(15, 20, 25, 0.95)';
+      } else {
+        navbar.style.background = 'rgba(15, 20, 25, 0.9)';
+      }
+    });
+  </script>
+</body>
+</html>

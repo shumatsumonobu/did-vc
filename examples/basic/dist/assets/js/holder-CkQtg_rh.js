@@ -1,1 +1,0 @@
-import"./style-D_Vc9ErJ.js";console.log("Holder ホームページ読み込み完了");document.addEventListener("DOMContentLoaded",function(){o()});function o(){console.log("Holder ホームページ初期化中..."),console.log("Holder ホームページ初期化完了")}

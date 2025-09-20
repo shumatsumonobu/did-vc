@@ -279,7 +279,7 @@ const showAuthenticationFailure = () => {
     icon: 'error',
     title: '認証失敗',
     html: `
-      <p style="font-size: 0.8125rem; color: #333;">
+      <p class="text-muted" style="font-size: 0.8125rem;">
         VPの認証に失敗しました。デジタル署名の検証でエラーが発生したため、提示されたデータの真正性を確認できませんでした。
       </p>
     `,
