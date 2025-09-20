@@ -12,6 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeHolderHome();
 });
 
+/**
+ * Holderホーム画面を初期化します。
+ * 基本的な画面設定とイベントリスナーの登録を実行。
+ * 将来的にVC保有状況の動的表示、状態バッジ、ナビゲーション履歴管理等を追加予定。
+ *
+ * @returns {void}
+ */
 const initializeHolderHome = () => {
   console.log('Holder ホームページ初期化中...');
 

@@ -6,6 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeMainPage();
 });
 
+/**
+ * メインエントリーページを初期化します。
+ * 基本的な画面設定とイベントリスナーの登録を実行。
+ * 将来的にシステムステータス表示、サービス健全性チェック、利用統計表示等を追加予定。
+ *
+ * @returns {void}
+ */
 const initializeMainPage = () => {
   console.log('メインページ初期化中...');
 

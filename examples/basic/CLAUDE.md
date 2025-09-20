@@ -22,7 +22,10 @@ examples/basic/
 │   │   ├── verifier/
 │   │   │   └── index.js           # verifier/index.html用
 │   │   └── lib/
-│   │       └── showLoadingFor.js  # 共通ローディング機能
+│   │       ├── showLoadingFor.js  # 共通ローディング機能
+│   │       ├── cryptoUtils.js     # 暗号化・署名・検証ユーティリティ
+│   │       ├── didRegistry.js     # DID管理・解決・登録機能
+│   │       └── vcManager.js       # VC生成・管理・検証機能
 │   └── css/
 │       └── style.css              # スタイルシート
 ├── dist/                   # ビルド済みファイル（本番用）
@@ -77,6 +80,15 @@ examples/basic/
 - **VC保存**: LocalStorageの`vc_wallet`
 - **署名**: 疑似実装（デモ用）
 
+### 実稼働との技術的違い
+| コンポーネント | 実稼働 | デモ実装 |
+|--------------|--------|----------|
+| **DID解決** | 分散台帳（Ethereum, Hyperledger等） | LocalStorage |
+| **暗号署名** | EdDSA, ECDSA, RSA | 疑似署名（文字列） |
+| **鍵管理** | HSM, 暗号ウォレット | ランダム文字列 |
+| **データ正規化** | JSON-LD Canonicalization | 簡易JSON |
+| **相互運用性** | W3C標準完全準拠 | 構造のみ準拠 |
+
 ### 動作フロー
 1. **VC発行**: Holderがフォーム入力 → 内部でIssuer処理 → 即座にVC発行
 2. **VP提示**: 本人確認/年齢認証を選択 → 必要項目のみ抽出 → QRコード生成
@@ -110,7 +122,11 @@ examples/basic/
 5. **QRコードは直接埋め込み** - 最大2-3KB
 
 ## 実装済み機能（モジュール化済み）
-- **共通機能** (`src/js/lib/showLoadingFor.js`): ローディングアニメーション
+- **共通ライブラリ** (`src/js/lib/`):
+  - `showLoadingFor.js`: ローディングアニメーション
+  - `cryptoUtils.js`: 暗号化・署名・検証ユーティリティ
+  - `didRegistry.js`: DID管理・解決・登録機能
+  - `vcManager.js`: VC生成・管理・検証機能
 - **Holder機能** (`src/js/holder/`):
   - `index.js`: ホームページ初期化
   - `credentials.js`: VC発行申請・管理機能
@@ -209,7 +225,10 @@ npm run preview
 ### src/js/lib/配下のモジュール
 ```
 src/js/lib/
-└── showLoadingFor.js    # 共通ローディング機能 (default export)
+├── showLoadingFor.js    # 共通ローディング機能 (default export)
+├── cryptoUtils.js       # 暗号化・署名・検証ユーティリティ (named exports)
+├── didRegistry.js       # DID管理・解決・登録機能 (named exports)
+└── vcManager.js         # VC生成・管理・検証機能 (named exports)
 ```
 
 ### 開発時の注意点

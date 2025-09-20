@@ -1,6 +1,7 @@
 import { Html5Qrcode } from 'html5-qrcode';
 import Swal from 'sweetalert2';
 import showLoadingFor from '../lib/showLoadingFor.js';
+import { validateVP, verifyVCSignature, createSelectiveDisclosureVP } from '../lib/vcManager.js';
 
 let selectedScenario = null;
 let html5QrCode = null;
@@ -8,6 +9,13 @@ let scannedVPData = null;
 
 // === 関数定義 ===
 
+/**
+ * 認証シナリオを選択してQRスキャン準備を開始します。
+ * ボタン状態更新、VP読取エリア表示、自動カメラ起動を実行。
+ *
+ * @param {string} scenario - 認証シナリオ（'identity'または'age'）
+ * @returns {void}
+ */
 const selectScenario = (scenario) => {
   // console.log('selectScenario() - シナリオ選択:', scenario);
   selectedScenario = scenario;
@@ -38,6 +46,13 @@ const selectScenario = (scenario) => {
   }, 100);
 };
 
+/**
+ * QRコードスキャナーを開始します。
+ * Html5Qrcodeライブラリを使用してリアカメラでQR読み取りを実行。
+ * 読み取り成功時は自動で認証処理を開始。
+ *
+ * @returns {void}
+ */
 const startQRScanner = () => {
   // console.log('startQRScanner() - 開始');
 
@@ -154,6 +169,12 @@ const showScanSuccess = () => {
   // console.log('QR読み取り成功 - 認証処理開始');
 };
 
+/**
+ * VPデータの認証処理を実行します。
+ * スキャンされたVPデータを検証し、成功・失敗に応じた結果表示を行う。
+ *
+ * @returns {void}
+ */
 const executeAuthentication = () => {
   if (scannedVPData) {
     // ここでVPデータを検証する処理を追加
@@ -170,17 +191,24 @@ const executeAuthentication = () => {
   }
 };
 
+/**
+ * VPデータの検証を行います。
+ * lib/vcManager.jsのvalidateVP関数を使用してVP検証を実行。
+ *
+ * @param {string} vpData - 検証するVPデータ（JSON文字列）
+ * @returns {boolean} 検証成功時はtrue、失敗時はfalse
+ */
 const validateVPData = (vpData) => {
-  try {
-    // 簡易的な検証（実際の実装では暗号化署名検証を行う）
-    const data = JSON.parse(vpData);
-    return data && (data.t === 'identity' || data.t === 'age') && data.iss;
-  } catch (error) {
-    console.error('VP検証エラー:', error);
-    return false;
-  }
+  return validateVP(vpData);
 };
 
+
+/**
+ * 認証成功時の結果表示を行います。
+ * SweetAlert2を使用して認証成功メッセージと確認済み属性情報を表示。
+ *
+ * @returns {void}
+ */
 const showAuthenticationSuccess = () => {
   // console.log('showAuthenticationSuccess - selectedScenario:', selectedScenario);
   const isIdentityAuth = selectedScenario === 'identity';
@@ -191,18 +219,26 @@ const showAuthenticationSuccess = () => {
     ? '本人確認が完了しました。提示された身元情報の真正性を確認しました。'
     : '年齢認証が完了しました。成人年齢であることを確認しました。';
 
+  // VPデータから実際の情報を取得
+  let vpInfo = null;
+  try {
+    vpInfo = JSON.parse(scannedVPData);
+  } catch (e) {
+    vpInfo = null;
+  }
+
   const attributeInfo = isIdentityAuth
     ? `<h6 style="font-size: 0.875rem;">確認済み身元情報:</h6>
        <div class="small text-muted" style="font-size: 0.75rem;">
-         <p class="mb-1">✓ 氏名: 山田 太郎</p>
-         <p class="mb-1">✓ 生年月日: 1990年5月15日</p>
-         <p class="mb-1">✓ 住所: 東京都千代田区霞が関1-1-1</p>
+         ${vpInfo?.name ? `<p class="mb-1">✓ 氏名: ${vpInfo.name}</p>` : '<p class="mb-1 text-danger">⚠ 氏名データなし</p>'}
+         ${vpInfo?.birth ? `<p class="mb-1">✓ 生年月日: ${new Date(vpInfo.birth).toLocaleDateString('ja-JP')}</p>` : '<p class="mb-1 text-danger">⚠ 生年月日データなし</p>'}
+         ${vpInfo?.addr ? `<p class="mb-1">✓ 住所: ${vpInfo.addr}</p>` : '<p class="mb-1 text-danger">⚠ 住所データなし</p>'}
          <p class="mb-1 text-success"><strong>本人確認: 承認</strong></p>
          <p class="mb-0 text-end">発行: DID認証機構</p>
        </div>`
     : `<h6 style="font-size: 0.875rem;">確認済み年齢情報:</h6>
        <div class="small text-muted" style="font-size: 0.75rem;">
-         <p class="mb-1">✓ 20歳以上であることを確認</p>
+         ${vpInfo?.birth ? `<p class="mb-1">✓ 生年月日: ${new Date(vpInfo.birth).toLocaleDateString('ja-JP')} (成人確認済み)</p>` : '<p class="mb-1">✓ 20歳以上であることを確認</p>'}
          <p class="mb-1 text-success"><strong>年齢認証: 承認</strong></p>
          <p class="mb-0 text-end">発行: DID認証機構</p>
        </div>`;
@@ -232,6 +268,12 @@ const showAuthenticationSuccess = () => {
   });
 };
 
+/**
+ * 認証失敗時の結果表示を行います。
+ * SweetAlert2を使用して認証失敗メッセージを表示。
+ *
+ * @returns {void}
+ */
 const showAuthenticationFailure = () => {
   Swal.fire({
     icon: 'error',
@@ -323,6 +365,13 @@ const resetToStart = () => {
   document.getElementById('step1').scrollIntoView({ behavior: 'smooth' });
 };
 
+/**
+ * 開発用テスト結果を表示します。
+ * 実際のVCから生成されたVPデータまたは無効データで認証テストを実行。
+ *
+ * @param {string} resultType - テストタイプ（'success'または'failure'）
+ * @returns {void}
+ */
 const showTestResult = (resultType) => {
   // console.log('showTestResult() - テスト結果表示:', resultType);
   // console.log('showTestResult() - 現在のselectedScenario:', selectedScenario);
@@ -334,8 +383,16 @@ const showTestResult = (resultType) => {
   }
 
   if (resultType === 'success') {
-    scannedVPData = `{"t": "${selectedScenario}", "iss": "DID認証機構", "ts": ${Math.floor(Date.now() / 1000)}}`;
-    showAuthenticationSuccess();
+    // 実際のVCから選択的開示VPを生成
+    const realVPData = createSelectiveDisclosureVP(selectedScenario);
+    if (realVPData) {
+      scannedVPData = realVPData;
+      showAuthenticationSuccess();
+    } else {
+      // VCが存在しない場合は固定テストデータを使用
+      scannedVPData = `{"t": "${selectedScenario}", "iss": "did:demo:issuer-001", "ts": ${Math.floor(Date.now() / 1000)}}`;
+      showAuthenticationSuccess();
+    }
   } else {
     scannedVPData = '{"invalid": "data"}'; // 無効なデータ
     showAuthenticationFailure();

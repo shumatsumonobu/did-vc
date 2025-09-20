@@ -1,5 +1,6 @@
 import qrcode from 'qrcode-generator';
 import showLoadingFor from '../lib/showLoadingFor.js';
+import { checkVCExists, getVCFromWallet, createSelectiveDisclosureVP } from '../lib/vcManager.js';
 
 let selectedScenario = null;
 
@@ -20,8 +21,14 @@ window.addEventListener('load', () => {
   checkVCStatus();
 });
 
+/**
+ * VCの発行状態をチェックして画面表示を切り替えます。
+ * VCが存在する場合はVP提示エリアを表示、存在しない場合は誘導メッセージを表示。
+ *
+ * @returns {void}
+ */
 const checkVCStatus = () => {
-  const hasVC = sessionStorage.getItem('applicationSubmitted') === 'true';
+  const hasVC = checkVCExists();
 
   if (hasVC) {
     // VCが発行済みの場合：VP提示エリアを表示
@@ -34,6 +41,12 @@ const checkVCStatus = () => {
   }
 }
 
+/**
+ * VP提示シナリオを選択してQRコード生成を開始します。
+ *
+ * @param {string} scene - 選択されたシナリオ（'identity'または'age'）
+ * @returns {void}
+ */
 const selectScene = (scene) => {
   selectedScenario = scene;
 
@@ -44,6 +57,13 @@ const selectScene = (scene) => {
   updateButtonStates(scene);
 }
 
+/**
+ * 選択的開示VPのQRコードを生成して表示します。
+ * VCから指定シナリオに必要な属性のみを抽出してQRコード化。
+ *
+ * @param {string} scene - VP生成シナリオ（'identity'または'age'）
+ * @returns {Promise<void>}
+ */
 const generateQRCode = async (scene) => {
   const qrArea = document.getElementById('qr-area');
 
@@ -59,14 +79,14 @@ const generateQRCode = async (scene) => {
     }
   };
 
-  // 実際のQRコード生成（データを簡略化）
-  const vpData = {
-    t: scene, // type -> t
-    ts: Math.floor(Date.now() / 1000), // timestamp -> ts (秒単位)
-    iss: "DID認証機構" // issuer -> iss
-  };
+  // 選択的開示VPを生成
+  const vpDataString = createSelectiveDisclosureVP(scene);
 
-  const qrDataString = JSON.stringify(vpData);
+  if (!vpDataString) {
+    throw new Error('VP生成に失敗しました');
+  }
+
+  const qrDataString = vpDataString;
   console.log('QRデータサイズ:', qrDataString.length, 'bytes');
 
   // ローディングを表示してからQRコード生成
@@ -110,6 +130,13 @@ const generateQRCode = async (scene) => {
   }
 }
 
+/**
+ * シナリオ選択ボタンの表示状態を更新します。
+ * 選択されたボタンをハイライト表示し、他のボタンは通常表示。
+ *
+ * @param {string} selectedScene - 選択されたシナリオ
+ * @returns {void}
+ */
 const updateButtonStates = (selectedScene) => {
   // すべての選択ボタンをリセット
   const buttons = document.querySelectorAll('button[data-scene]');
@@ -126,6 +153,12 @@ const updateButtonStates = (selectedScene) => {
   }
 }
 
+/**
+ * シナリオ選択とQRコード表示をリセットします。
+ * QRエリアを初期状態に戻し、ボタンの状態もリセット。
+ *
+ * @returns {void}
+ */
 const resetSelection = () => {
   selectedScenario = null;
 
