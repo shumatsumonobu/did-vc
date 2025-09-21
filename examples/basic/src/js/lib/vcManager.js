@@ -183,7 +183,9 @@ export const validateVP = (vpData) => {
   // });
 
   try {
-    const data = JSON.parse(vpData);
+    // Base64デコードしてからJSONパース（QRコード文字化け対策）
+    const decodedData = decodeURIComponent(escape(atob(vpData)));
+    const data = JSON.parse(decodedData);
 
     // 基本構造チェック
     if (!data || !data.t || !data.iss) {
@@ -300,5 +302,7 @@ export const createSelectiveDisclosureVP = (scenario) => {
     disclosedData.sig = vc.proof.jws.substring(0, 16);
   }
 
-  return JSON.stringify(disclosedData);
+  // 日本語文字化け対策：UTF-8テキストをBase64エンコーディング
+  const jsonString = JSON.stringify(disclosedData);
+  return btoa(unescape(encodeURIComponent(jsonString)));
 };

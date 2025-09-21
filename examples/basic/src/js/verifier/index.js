@@ -224,11 +224,14 @@ const showAuthenticationSuccess = () => {
     ? '本人確認が完了しました。提示された身元情報の真正性を確認しました。'
     : '年齢認証が完了しました。成人年齢であることを確認しました。';
 
-  // VPデータから実際の情報を取得
+  // VPデータから実際の情報を取得（Base64デコード対応）
   let vpInfo = null;
   try {
-    vpInfo = JSON.parse(scannedVPData);
+    // Base64デコードしてからJSONパース
+    const decodedData = decodeURIComponent(escape(atob(scannedVPData)));
+    vpInfo = JSON.parse(decodedData);
   } catch (e) {
+    console.error('VP検証エラー:', e);
     vpInfo = null;
   }
 

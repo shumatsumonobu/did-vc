@@ -2,7 +2,14 @@
 
 DID/VC学習・実装プロジェクトの変更履歴
 
-## [Unreleased] - 2025-09-21
+## [Unreleased] - 2025-01-26
+
+### QRコード文字化け修正
+- **Base64エンコーディング対応**: 日本語を含むVPデータのQRコード処理で文字化けエラーを解消
+- **UTF-8安全化**: `btoa(unescape(encodeURIComponent()))`でエンコード、`decodeURIComponent(escape(atob()))`でデコード
+- **VP検証改善**: QRコード読み取り・JSON解析・VP検証の全工程でBase64対応
+
+## 2025-09-21
 
 ### ダークテーマ・ライトテーマ両対応システム実装
 - **Bootstrap 5標準対応**: CSS Custom Propertiesを使用したdata-bs-theme切り替えシステム
