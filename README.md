@@ -165,19 +165,38 @@ localStorage.setItem('vc_wallet', JSON.stringify(credentials));
 ### 基本デモ
 DID/VCの基本的な動作を理解するためのシンプルなデモ
 
+**[デモサイトで体験する](https://takuya-motoshima.github.io/did-vc-dist/)**
+
 - VC発行・保管・検証の基本フロー
 - QRコードによる提示
 - 選択的開示の体験
+- スマートフォンとPCを使った実デバイス間認証
 
 詳細は各デモディレクトリのREADMEを参照
 
 ## 参考資料
 
+### デモサイト
+**[インタラクティブデモで体験する](https://takuya-motoshima.github.io/did-vc-dist/)**
+
 ### 公式仕様
 - [W3C Verifiable Credentials](https://www.w3.org/TR/vc-data-model/)
 - [W3C Decentralized Identifiers](https://www.w3.org/TR/did-core/)
+- [DID Method Registry](https://www.w3.org/TR/did-spec-registries/)
 
 ### 実装例
-- Microsoft ION
-- Hyperledger Indy
-- Ethereum DID
+- [Microsoft ION](https://github.com/decentralized-identity/ion)
+- [Hyperledger Indy](https://www.hyperledger.org/use/hyperledger-indy)
+- [Ethereum DID Registry](https://github.com/uport-project/ethr-did-registry)
+
+## 作成者
+
+**Takuya Motoshima**
+
+* [github/takuya-motoshima](https://github.com/takuya-motoshima)
+* [x/takuya_motech](https://x.com/takuya_motech)
+* [facebook/takuya.motoshima.7](https://www.facebook.com/takuya.motoshima.7)
+
+## ライセンス
+
+[MIT](LICENSE)
