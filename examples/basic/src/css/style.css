@@ -445,6 +445,25 @@ body {
   border-color: #555555 !important;
 }
 
+/* VCカードフッターのレスポンシブ対応 */
+.vc-card-footer .d-flex {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* 小さい画面では縦並びに */
+@media (max-width: 380px) {
+  .vc-card-footer .d-flex {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .vc-card-footer .d-flex > small {
+    display: block;
+    width: 100%;
+  }
+}
+
 /* Bootstrap 5標準のCSS Custom Propertiesを使用したダークテーマ */
 [data-bs-theme="dark"] {
   --bs-body-bg: #111111;

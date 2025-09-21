@@ -74,12 +74,17 @@ const startQRScanner = () => {
   // console.log('Html5Qrcode インスタンス作成中...');
   html5QrCode = new Html5Qrcode("qr-reader");
 
+  // 画面サイズに応じてQRスキャンエリアのサイズを調整
+  const qrReaderElement = document.getElementById('qr-reader');
+  const containerWidth = qrReaderElement.offsetWidth;
+  const qrBoxSize = Math.min(containerWidth * 0.8, 320); // コンテナの80%、最大320px
+
   // console.log('カメラ起動開始...');
   html5QrCode.start(
     { facingMode: "environment" }, // リアカメラを優先
     {
       fps: 10,    // フレームレート
-      qrbox: { width: 250, height: 250 }, // スキャンエリア
+      qrbox: { width: qrBoxSize, height: qrBoxSize }, // スキャンエリア
       aspectRatio: 1.0
     },
     (decodedText, decodedResult) => {
@@ -412,6 +417,19 @@ document.getElementById('test-failure-btn').addEventListener('click', () => show
 
 // ページ読み込み完了時の処理
 document.addEventListener('DOMContentLoaded', () => {
+  // 開発者モードチェック (?dev=1 パラメータで制御)
+  const urlParams = new URLSearchParams(window.location.search);
+  const isDevMode = urlParams.get('dev') === '1';
+
+  if (isDevMode) {
+    // 開発者用テストボタンを表示
+    const devTools = document.getElementById('dev-tools');
+    if (devTools) {
+      devTools.style.display = 'block';
+      console.log('開発者モードが有効です (?dev=1)');
+    }
+  }
+
   // Html5Qrcodeライブラリの読み込み確認
   const checkLibraryLoaded = () => {
     if (typeof Html5Qrcode !== 'undefined') {

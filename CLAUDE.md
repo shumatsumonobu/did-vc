@@ -29,3 +29,9 @@ W3C標準準拠のDID（Decentralized Identifiers）とVC（Verifiable Credentia
 - async/awaitを優先
 - エラーハンドリングを適切に実装
 - コメントは日本語可
+
+## ドキュメント・UI方針
+- 簡潔な文体（敬語不要、文末句点削除）
+- アイコンは最小限に（unified-icon使用でテーマ対応）
+- カラフルなUI要素は避け、グレー系を使用
+- alert系はalert-dark、ボーダーはborder-secondaryを基本とする

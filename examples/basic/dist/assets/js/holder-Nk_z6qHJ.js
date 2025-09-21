@@ -1,0 +1,1 @@
+import"./style-D-PBLulJ.js";console.log("Holder ホームページ読み込み完了");document.addEventListener("DOMContentLoaded",()=>{o()});const o=()=>{console.log("Holder ホームページ初期化中..."),console.log("Holder ホームページ初期化完了")};
