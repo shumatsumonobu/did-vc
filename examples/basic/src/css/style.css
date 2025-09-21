@@ -4,7 +4,7 @@
 /* 最小限のカスタムスタイル */
 :root {
   --bs-body-font-size: 0.8125rem;
-  --bs-body-font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --bs-body-font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif, "Segoe UI Emoji";
 
   /* 高級感のある落ち着いた青ベースの色 */
   --bs-primary: #2c5aa0;
@@ -20,9 +20,75 @@ body {
   font-family: var(--bs-body-font-family);
 }
 
-/* 小さめのフォントサイズ調整 */
+/* 小さめのフォントサイズ調整とボタンの丸み */
 .btn {
   font-size: var(--bs-body-font-size);
+  border-radius: 50px !important;
+}
+
+
+/* シナリオボタン専用クラス */
+.scenario-btn {
+  border-radius: 0.375rem !important;
+  font-size: var(--bs-body-font-size);
+}
+
+/* ライトテーマでのシナリオボタン */
+[data-bs-theme="light"] .btn.scenario-btn {
+  background-color: transparent;
+  color: #212529;
+  border: 1px solid #212529;
+}
+
+[data-bs-theme="light"] .btn.scenario-btn:hover {
+  background-color: var(--bs-primary);
+  color: white;
+  border-color: var(--bs-primary);
+}
+
+[data-bs-theme="light"] .btn.scenario-btn:hover .text-muted {
+  color: white !important;
+}
+
+[data-bs-theme="light"] .btn.scenario-btn.selected {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+  border-color: var(--bs-primary) !important;
+}
+
+[data-bs-theme="light"] .btn.scenario-btn.selected .text-muted {
+  color: white !important;
+}
+
+/* ダークテーマでのシナリオボタン */
+[data-bs-theme="dark"] .btn.scenario-btn {
+  background-color: transparent !important;
+  color: #f8f9fa !important;
+  border: 1px solid #f8f9fa !important;
+}
+
+[data-bs-theme="dark"] .btn.scenario-btn:hover {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+  border-color: var(--bs-primary) !important;
+}
+
+[data-bs-theme="dark"] .btn.scenario-btn:hover .text-muted {
+  color: white !important;
+}
+
+[data-bs-theme="dark"] .btn.scenario-btn.selected {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+  border-color: var(--bs-primary) !important;
+}
+
+[data-bs-theme="dark"] .btn.scenario-btn .text-muted {
+  color: #cccccc !important;
+}
+
+[data-bs-theme="dark"] .btn.scenario-btn.selected .text-muted {
+  color: white !important;
 }
 
 .form-control,
@@ -166,21 +232,49 @@ body {
   color: white !important;
 }
 
-/* ダークテーマでのボタンスタイル調整 */
-[data-bs-theme="dark"] .btn-outline-dark {
-  border-color: #6c757d;
-  color: #f8f9fa;
+/* ダークテーマでのボタンスタイル調整 - 背景白・文字黒で統一 */
+[data-bs-theme="dark"] .btn {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
 }
 
-[data-bs-theme="dark"] .btn-outline-dark:hover {
+[data-bs-theme="dark"] .btn:hover {
+  background-color: #f8f9fa !important;
+  color: #000000 !important;
+  border-color: #f8f9fa !important;
+}
+
+[data-bs-theme="dark"] .btn:active,
+[data-bs-theme="dark"] .btn:focus {
+  background-color: #e9ecef !important;
+  color: #000000 !important;
+  border-color: #e9ecef !important;
+}
+
+/* ダークテーマでのボタン内のtext-mutedも黒色に */
+[data-bs-theme="dark"] .btn .text-muted {
+  color: #000000 !important;
+}
+
+
+/* ライトテーマでのプライマリボタンは元の色を維持 - 詳細度を上げる */
+[data-bs-theme="light"] .btn.btn-primary {
   background-color: var(--bs-primary) !important;
-  border-color: var(--bs-primary) !important;
   color: white !important;
+  border-color: var(--bs-primary) !important;
 }
 
-[data-bs-theme="dark"] .btn-dark {
-  background-color: #495057;
-  border-color: #495057;
+[data-bs-theme="light"] .btn.btn-primary:hover,
+[data-bs-theme="light"] .btn.btn-primary:active,
+[data-bs-theme="light"] .btn.btn-primary:focus {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+  border-color: var(--bs-primary) !important;
+}
+
+[data-bs-theme="light"] .btn.btn-primary .text-muted {
+  color: white !important;
 }
 
 /* ホルダー専用フッターナビゲーション */

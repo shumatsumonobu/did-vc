@@ -142,15 +142,13 @@ const updateButtonStates = (selectedScene) => {
   // すべての選択ボタンをリセット
   const buttons = document.querySelectorAll('button[data-scene]');
   buttons.forEach(btn => {
-    btn.classList.remove('btn-primary');
-    btn.classList.add('btn-outline-dark');
+    btn.classList.remove('selected');
   });
 
   // 選択されたボタンのみをハイライト
   const selectedButton = document.querySelector(`button[data-scene="${selectedScene}"]`);
   if (selectedButton) {
-    selectedButton.classList.remove('btn-outline-dark');
-    selectedButton.classList.add('btn-primary');
+    selectedButton.classList.add('selected');
   }
 }
 
