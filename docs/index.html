@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja" data-bs-theme="dark">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +14,7 @@
       --bs-body-font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif, "Segoe UI Emoji";
       --heading-font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif, "Segoe UI Emoji";
       --code-font-family: 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
-      
+
       /* フォントサイズ調整 */
       --bs-body-font-size: 0.875rem;
       --h1-font-size: 2rem;
@@ -66,19 +67,53 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .h1,
+    .h2,
+    .h3,
+    .h4,
+    .h5,
+    .h6 {
       font-family: var(--heading-font-family);
       font-weight: 600;
       letter-spacing: -0.01em;
     }
 
     /* 見出しサイズ調整 */
-    h1, .h1 { font-size: var(--h1-font-size); }
-    h2, .h2 { font-size: var(--h2-font-size); }
-    h3, .h3 { font-size: var(--h3-font-size); }
-    h4, .h4 { font-size: var(--h4-font-size); }
-    h5, .h5 { font-size: var(--h5-font-size); }
-    h6, .h6 { font-size: var(--h6-font-size); }
+    h1,
+    .h1 {
+      font-size: var(--h1-font-size);
+    }
+
+    h2,
+    .h2 {
+      font-size: var(--h2-font-size);
+    }
+
+    h3,
+    .h3 {
+      font-size: var(--h3-font-size);
+    }
+
+    h4,
+    .h4 {
+      font-size: var(--h4-font-size);
+    }
+
+    h5,
+    .h5 {
+      font-size: var(--h5-font-size);
+    }
+
+    h6,
+    .h6 {
+      font-size: var(--h6-font-size);
+    }
 
     .display-5 {
       font-family: var(--heading-font-family);
@@ -106,7 +141,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: 
+      background:
         radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.12) 0%, transparent 60%),
         radial-gradient(circle at 80% 70%, rgba(245, 87, 108, 0.08) 0%, transparent 55%),
         radial-gradient(circle at 50% 50%, rgba(79, 172, 254, 0.06) 0%, transparent 65%);
@@ -120,7 +155,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: 
+      background:
         radial-gradient(circle at 25% 25%, rgba(255, 182, 193, 0.08) 0%, transparent 55%),
         radial-gradient(circle at 75% 75%, rgba(255, 218, 185, 0.06) 0%, transparent 60%),
         radial-gradient(circle at 50% 80%, rgba(173, 216, 230, 0.05) 0%, transparent 50%),
@@ -129,8 +164,15 @@
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(180deg); }
+
+      0%,
+      100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-20px) rotate(180deg);
+      }
     }
 
     /* Glass morphism effects */
@@ -201,7 +243,7 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
       transition: left 0.5s;
     }
 
@@ -237,7 +279,8 @@
       justify-content: center;
       margin-bottom: 1rem;
       font-size: 1.5rem;
-      color: #ffffff; /* アイコンを常に白色に固定 */
+      color: #ffffff;
+      /* アイコンを常に白色に固定 */
     }
 
     /* Demo section */
@@ -328,6 +371,7 @@
         opacity: 0;
         transform: translateY(30px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -388,11 +432,11 @@
     .mermaid .grid .tick {
       display: none !important;
     }
-    
+
     .mermaid .grid path {
       display: none !important;
     }
-    
+
     .mermaid .x-axis {
       display: none !important;
     }
@@ -739,11 +783,11 @@
       .hero-title {
         font-size: 2.5rem;
       }
-      
+
       .hero-subtitle {
         font-size: 1.1rem;
       }
-      
+
       .flow-step::after {
         content: '↓';
         right: 50%;
@@ -753,22 +797,25 @@
     }
   </style>
 </head>
+
 <body>
   <div class="bg-animated"></div>
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      <a class="navbar-brand fw-bold" href="#"
+        style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
         DID/VC技術
       </a>
-      
+
       <!-- Mobile Table of Contents Toggle -->
-      <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileToc" aria-controls="mobileToc" aria-expanded="false" aria-label="目次を開く">
+      <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileToc"
+        aria-controls="mobileToc" aria-expanded="false" aria-label="目次を開く">
         <span class="navbar-toggler-icon"></span>
         <span class="ms-2">目次</span>
       </button>
-      
+
       <!-- Mobile Table of Contents -->
       <div class="collapse navbar-collapse d-lg-none" id="mobileToc">
         <ul class="navbar-nav">
@@ -812,7 +859,7 @@
             <a href="#demos" class="btn-gradient">
               <i class="fas fa-play me-2"></i>デモを体験
             </a>
-            <a href="https://github.com/takuya-motoshima/did-vc" class="btn-gradient">
+            <a href="https://github.com/shumatsumonobu/did-vc" class="btn-gradient">
               <i class="fab fa-github me-2"></i>GitHub
             </a>
           </div>
@@ -837,11 +884,11 @@
           <div class="glass-card p-4 h-100">
             <h5 class="text-center mb-4">従来システム</h5>
             <div class="mermaid">
-graph TD
-    A[ユーザ] --> B[中央認証サーバ]
-    B --> C[サービス]
-    B -.-> D1[全情報開示必須]
-    B -.-> D2[ベンダーロックイン]
+              graph TD
+              A[ユーザ] --> B[中央認証サーバ]
+              B --> C[サービス]
+              B -.-> D1[全情報開示必須]
+              B -.-> D2[ベンダーロックイン]
             </div>
           </div>
         </div>
@@ -849,15 +896,15 @@ graph TD
           <div class="glass-card p-4 h-100">
             <h5 class="text-center mb-4">DID/VCシステム</h5>
             <div class="mermaid">
-graph TD
-    H[Holder] 
-    I[Issuer]
-    V[Verifier]
-    
-    I -.-> |VC発行| H
-    H -.-> |VP提示| V
-    H -.-> D3[選択的開示]
-    H -.-> D4[自己管理]
+              graph TD
+              H[Holder]
+              I[Issuer]
+              V[Verifier]
+
+              I -.-> |VC発行| H
+              H -.-> |VP提示| V
+              H -.-> D3[選択的開示]
+              H -.-> D4[自己管理]
             </div>
           </div>
         </div>
@@ -973,7 +1020,7 @@ graph TD
                 <p class="mb-3">
                   VC発行からVP提示、検証まで一通りの流れを体験するシンプルなデモ
                 </p>
-                
+
                 <div class="mb-3">
                   <h6 class="mb-2">体験できる機能</h6>
                   <span class="tech-badge">VC発行</span>
@@ -1001,7 +1048,7 @@ graph TD
                 <p class="mb-3">
                   より高度なDID/VC機能を体験できる追加デモを開発中
                 </p>
-                
+
                 <div class="mb-3">
                   <h6 class="mb-2">開発予定機能</h6>
                   <span class="tech-badge">ブロックチェーン統合</span>
@@ -1045,10 +1092,8 @@ graph TD
                 </p>
               </div>
               <div class="col-md-4 text-center">
-                <img src="images/demo/qr_basic_demo_holder.png"
-                     alt="Basic Demo QRコード"
-                     class="img-fluid rounded"
-                     style="max-width: 200px;">
+                <img src="images/demo/qr_basic_demo_holder.png" alt="Basic Demo QRコード" class="img-fluid rounded"
+                  style="max-width: 200px;">
                 <p class="small text-muted mt-2">スマートフォンで読み取り</p>
               </div>
             </div>
@@ -1063,9 +1108,8 @@ graph TD
         <div class="glass-card p-4 mb-4">
           <div class="row align-items-center">
             <div class="col-md-4">
-              <img src="images/demo/01_holder_home.png"
-                   alt="01_holder_home.png"
-                   class="img-fluid rounded shadow-sm mobile-screenshot">
+              <img src="images/demo/01_holder_home.png" alt="01_holder_home.png"
+                class="img-fluid rounded shadow-sm mobile-screenshot">
             </div>
             <div class="col-md-8">
               <h4 class="mb-3">
@@ -1104,9 +1148,8 @@ graph TD
               </p>
             </div>
             <div class="col-md-4">
-              <img src="images/demo/02_vc_management_menu.png"
-                   alt="02_vc_management_menu.png"
-                   class="img-fluid rounded shadow-sm mobile-screenshot">
+              <img src="images/demo/02_vc_management_menu.png" alt="02_vc_management_menu.png"
+                class="img-fluid rounded shadow-sm mobile-screenshot">
             </div>
           </div>
         </div>
@@ -1115,9 +1158,8 @@ graph TD
         <div class="glass-card p-4 mb-4">
           <div class="row align-items-center">
             <div class="col-md-4">
-              <img src="images/demo/03_vc_application_form.png"
-                   alt="03_vc_application_form.png"
-                   class="img-fluid rounded shadow-sm mobile-screenshot">
+              <img src="images/demo/03_vc_application_form.png" alt="03_vc_application_form.png"
+                class="img-fluid rounded shadow-sm mobile-screenshot">
             </div>
             <div class="col-md-8">
               <h4 class="mb-3">
@@ -1160,9 +1202,8 @@ graph TD
               </p>
             </div>
             <div class="col-md-4">
-              <img src="images/demo/04_vc_issued.png"
-                   alt="04_vc_issued_success.png"
-                   class="img-fluid rounded shadow-sm mobile-screenshot">
+              <img src="images/demo/04_vc_issued.png" alt="04_vc_issued_success.png"
+                class="img-fluid rounded shadow-sm mobile-screenshot">
             </div>
           </div>
         </div>
@@ -1171,9 +1212,8 @@ graph TD
         <div class="glass-card p-4 mb-4">
           <div class="row align-items-center">
             <div class="col-md-6">
-              <img src="images/demo/05_verifier_app.png"
-                   alt="05_verifier_home.png"
-                   class="img-fluid rounded shadow-sm pc-screenshot">
+              <img src="images/demo/05_verifier_app.png" alt="05_verifier_home.png"
+                class="img-fluid rounded shadow-sm pc-screenshot">
             </div>
             <div class="col-md-6">
               <h4 class="mb-3">
@@ -1186,8 +1226,9 @@ graph TD
               </p>
               <p class="mb-3">
                 <strong>検証アプリURL：</strong><br>
-                <a href="https://takuya-motoshima.github.io/did-vc/basic/verifier/" target="_blank" class="text-decoration-none">
-                  https://takuya-motoshima.github.io/did-vc/basic/verifier/
+                <a href="https://shumatsumonobu.github.io/did-vc/basic/verifier/" target="_blank"
+                  class="text-decoration-none">
+                  https://shumatsumonobu.github.io/did-vc/basic/verifier/
                 </a>
               </p>
               <p class="mb-0">
@@ -1234,9 +1275,8 @@ graph TD
               </p>
             </div>
             <div class="col-md-6">
-              <img src="images/demo/06_scenario_selection.png"
-                   alt="06_scenario_selection.png"
-                   class="img-fluid rounded shadow-sm pc-screenshot">
+              <img src="images/demo/06_scenario_selection.png" alt="06_scenario_selection.png"
+                class="img-fluid rounded shadow-sm pc-screenshot">
             </div>
           </div>
         </div>
@@ -1245,9 +1285,8 @@ graph TD
         <div class="glass-card p-4 mb-4">
           <div class="row align-items-center">
             <div class="col-md-4">
-              <img src="images/demo/07_vp_presentation.png"
-                   alt="07_vp_presentation_scenario.png"
-                   class="img-fluid rounded shadow-sm mobile-screenshot">
+              <img src="images/demo/07_vp_presentation.png" alt="07_vp_presentation_scenario.png"
+                class="img-fluid rounded shadow-sm mobile-screenshot">
             </div>
             <div class="col-md-8">
               <h4 class="mb-3">
@@ -1289,9 +1328,8 @@ graph TD
               </div>
             </div>
             <div class="col-md-4">
-              <img src="images/demo/08_qr_generated.png"
-                   alt="08_qr_generated_scanning.png"
-                   class="img-fluid rounded shadow-sm mobile-screenshot">
+              <img src="images/demo/08_qr_generated.png" alt="08_qr_generated_scanning.png"
+                class="img-fluid rounded shadow-sm mobile-screenshot">
             </div>
           </div>
         </div>
@@ -1313,17 +1351,15 @@ graph TD
           <div class="row g-4 mb-4">
             <div class="col-md-6">
               <div class="text-center">
-                <img src="images/demo/09_qr_scanning.png"
-                     alt="QRコード読み取り中"
-                     class="img-fluid rounded shadow-sm pc-screenshot mb-2">
+                <img src="images/demo/09_qr_scanning.png" alt="QRコード読み取り中"
+                  class="img-fluid rounded shadow-sm pc-screenshot mb-2">
                 <small class="text-muted d-block">QRコード読み取り中</small>
               </div>
             </div>
             <div class="col-md-6">
               <div class="text-center">
-                <img src="images/demo/10_authentication_success.png"
-                     alt="認証成功画面"
-                     class="img-fluid rounded shadow-sm pc-screenshot mb-2">
+                <img src="images/demo/10_authentication_success.png" alt="認証成功画面"
+                  class="img-fluid rounded shadow-sm pc-screenshot mb-2">
                 <small class="text-muted d-block">認証成功画面</small>
               </div>
             </div>
@@ -1405,17 +1441,17 @@ graph TD
           <div class="glass-card p-4">
             <h4 class="text-left mb-4">DID/VCアーキテクチャ関係図</h4>
             <div class="mermaid">
-graph TD
-    H[Holder<br/>証明書保有者] 
-    I[Issuer<br/>証明書発行者]
-    V[Verifier<br/>証明書検証者]
-    
-    H -.-> |1. 証明書申請| I
-    I -.-> |2. VC発行| H
-    H -.-> |3. VP提示| V
-    V -.-> |4. 検証結果| H
-    
-    I -.-> |信頼関係| V
+              graph TD
+              H[Holder<br />証明書保有者]
+              I[Issuer<br />証明書発行者]
+              V[Verifier<br />証明書検証者]
+
+              H -.-> |1. 証明書申請| I
+              I -.-> |2. VC発行| H
+              H -.-> |3. VP提示| V
+              V -.-> |4. 検証結果| H
+
+              I -.-> |信頼関係| V
             </div>
           </div>
         </div>
@@ -1474,34 +1510,34 @@ graph TD
         <div class="glass-card p-4">
           <h3 class="text-left mb-4">VC発行から検証までの詳細フロー</h3>
           <div class="mermaid">
-sequenceDiagram
-    participant H as Holder
-    participant I as Issuer
-    participant V as Verifier
-    
-    Note over H: 1. DID生成フェーズ
-    H->>H: 鍵ペア生成
-    H->>H: DID作成
-    H->>H: DID Document作成
-    
-    Note over H,I: 2. VC発行フェーズ
-    H->>I: 証明書発行申請
-    I->>I: 本人確認・審査
-    I->>I: VC生成・署名
-    I->>H: VC送付
-    H->>H: VC保存
-    
-    Note over H,V: 3. VP提示フェーズ
-    V->>H: 認証要求
-    H->>H: 必要属性選択
-    H->>H: VP生成・署名
-    H->>V: VP提示(QR等)
-    
-    Note over V: 4. 検証フェーズ
-    V->>V: VP構造検証
-    V->>V: 署名検証
-    V->>V: 発行者信頼性確認
-    V->>H: 検証結果通知
+            sequenceDiagram
+            participant H as Holder
+            participant I as Issuer
+            participant V as Verifier
+
+            Note over H: 1. DID生成フェーズ
+            H->>H: 鍵ペア生成
+            H->>H: DID作成
+            H->>H: DID Document作成
+
+            Note over H,I: 2. VC発行フェーズ
+            H->>I: 証明書発行申請
+            I->>I: 本人確認・審査
+            I->>I: VC生成・署名
+            I->>H: VC送付
+            H->>H: VC保存
+
+            Note over H,V: 3. VP提示フェーズ
+            V->>H: 認証要求
+            H->>H: 必要属性選択
+            H->>H: VP生成・署名
+            H->>V: VP提示(QR等)
+
+            Note over V: 4. 検証フェーズ
+            V->>V: VP構造検証
+            V->>V: 署名検証
+            V->>V: 発行者信頼性確認
+            V->>H: 検証結果通知
           </div>
         </div>
       </div>
@@ -1585,12 +1621,14 @@ sequenceDiagram
               <li class="mb-2"><strong>ハッシュ関数:</strong> SHA-256、SHA-3、BLAKE2b</li>
               <li class="mb-2"><strong>鍵管理:</strong> ローカルストレージ（検証用）</li>
               <li class="mb-2">
-                <strong>本番推奨:</strong> 
-                <a href="https://en.wikipedia.org/wiki/Hardware_security_module" target="_blank" class="text-decoration-none mx-1">HSM</a>、
-                <a href="https://developer.arm.com/documentation/102418/0100/What-is-a-Trusted-Execution-Environment--TEE--" target="_blank" class="text-decoration-none mx-1">TEE</a>
+                <strong>本番推奨:</strong>
+                <a href="https://en.wikipedia.org/wiki/Hardware_security_module" target="_blank"
+                  class="text-decoration-none mx-1">HSM</a>、
+                <a href="https://developer.arm.com/documentation/102418/0100/What-is-a-Trusted-Execution-Environment--TEE--"
+                  target="_blank" class="text-decoration-none mx-1">TEE</a>
                 による秘密鍵保護
                 <br><small class="text-light">HSM: 専用ハードウェアによる鍵の物理的保護<br>
-                TEE: プロセッサ内蔵の信頼できる実行環境</small>
+                  TEE: プロセッサ内蔵の信頼できる実行環境</small>
               </li>
             </ul>
           </div>
@@ -1602,25 +1640,25 @@ sequenceDiagram
         <div class="glass-card p-4">
           <h5 class="mb-4">DID Methods比較図</h5>
           <div class="mermaid">
-graph TB
-    subgraph Methods["DID Methods"]
-        Key["did:key<br/>オフライン生成<br/>シンプル・高速"]
-        Web["did:web<br/>DNS基盤<br/>既存PKI活用"]
-        Ethr["did:ethr<br/>Ethereum<br/>スマートコントラクト"]
-        ION["did:ion<br/>Bitcoin Layer2<br/>Sidetree Protocol"]
-    end
-    
-    subgraph Characteristics["特徴"]
-        Simple[シンプル]
-        Scalable[スケーラブル]
-        Decentralized[分散型]
-        Enterprise[エンタープライズ]
-    end
-    
-    Key -.-> Simple
-    Web -.-> Enterprise
-    Ethr -.-> Decentralized
-    ION -.-> Scalable
+            graph TB
+            subgraph Methods["DID Methods"]
+            Key["did:key<br />オフライン生成<br />シンプル・高速"]
+            Web["did:web<br />DNS基盤<br />既存PKI活用"]
+            Ethr["did:ethr<br />Ethereum<br />スマートコントラクト"]
+            ION["did:ion<br />Bitcoin Layer2<br />Sidetree Protocol"]
+            end
+
+            subgraph Characteristics["特徴"]
+            Simple[シンプル]
+            Scalable[スケーラブル]
+            Decentralized[分散型]
+            Enterprise[エンタープライズ]
+            end
+
+            Key -.-> Simple
+            Web -.-> Enterprise
+            Ethr -.-> Decentralized
+            ION -.-> Scalable
           </div>
           <div class="row g-3 mt-3">
             <div class="col-lg-3 col-md-6">
@@ -1661,28 +1699,32 @@ graph TB
           <div class="row g-3">
             <div class="col-md-6">
               <h6 class="mb-2">
-                <a href="https://www.w3.org/TR/did-core/" target="_blank" class="text-decoration-none">DIDコア仕様 1.0（DID Core 1.0）</a>
+                <a href="https://www.w3.org/TR/did-core/" target="_blank" class="text-decoration-none">DIDコア仕様 1.0（DID
+                  Core 1.0）</a>
               </h6>
               <span class="badge" style="background-color: #4b5563; color: #ffffff;" class="mb-2">実装済み</span>
               <p class="small text-light mb-0">did:key方式による基本的なDID生成・管理機能</p>
             </div>
             <div class="col-md-6">
               <h6 class="mb-2">
-                <a href="https://www.w3.org/TR/vc-data-model/" target="_blank" class="text-decoration-none">検証可能証明書データモデル 1.1（VC Data Model 1.1）</a>
+                <a href="https://www.w3.org/TR/vc-data-model/" target="_blank"
+                  class="text-decoration-none">検証可能証明書データモデル 1.1（VC Data Model 1.1）</a>
               </h6>
               <span class="badge" style="background-color: #4b5563; color: #ffffff;" class="mb-2">フル対応</span>
               <p class="small text-light mb-0">JSON-LD形式によるVC発行・検証・提示機能</p>
             </div>
             <div class="col-md-6">
               <h6 class="mb-2">
-                <a href="https://w3c-ccg.github.io/did-resolution/" target="_blank" class="text-decoration-none">DID解決仕様（DID Resolution）</a>
+                <a href="https://w3c-ccg.github.io/did-resolution/" target="_blank"
+                  class="text-decoration-none">DID解決仕様（DID Resolution）</a>
               </h6>
               <span class="badge" style="background-color: #6b7280; color: #ffffff;" class="mb-2">部分実装</span>
               <p class="small text-light mb-0">did:key方式のみ対応、他のDID Methodsは今後追加予定</p>
             </div>
             <div class="col-md-6">
               <h6 class="mb-2">
-                <a href="https://www.w3.org/TR/vc-data-model/#presentations" target="_blank" class="text-decoration-none">検証可能提示データモデル（VP Data Model）</a>
+                <a href="https://www.w3.org/TR/vc-data-model/#presentations" target="_blank"
+                  class="text-decoration-none">検証可能提示データモデル（VP Data Model）</a>
               </h6>
               <span class="badge" style="background-color: #4b5563; color: #ffffff;" class="mb-2">対応済み</span>
               <p class="small text-light mb-0">選択的開示機能を含むVP生成・検証機能</p>
@@ -1696,33 +1738,33 @@ graph TB
         <div class="glass-card p-4">
           <h5 class="mb-4">データ構造関係図</h5>
           <div class="mermaid">
-graph TD
-    subgraph DID_Doc["DID Document"]
-        DID["DID<br/>did:key:z6Mk..."]
-        VM["Verification Method<br/>公開鍵情報"]
-        Auth["Authentication<br/>認証方法"]
-    end
-    
-    subgraph VC_Structure["Verifiable Credential"]
-        Context["@context<br/>JSON-LD"]
-        Type["type<br/>VerifiableCredential"]
-        Issuer["issuer<br/>発行者DID"]
-        Subject["credentialSubject<br/>証明内容"]
-        Proof1["proof<br/>デジタル署名"]
-    end
-    
-    subgraph VP_Structure["Verifiable Presentation"]
-        Context2["@context<br/>JSON-LD"]
-        Type2["type<br/>VerifiablePresentation"]
-        VC["verifiableCredential<br/>提示するVC"]
-        Proof2["proof<br/>Holder署名"]
-    end
-    
-    DID --> Issuer
-    DID --> Subject
-    VC_Structure --> VC
-    VM --> Proof1
-    VM --> Proof2
+            graph TD
+            subgraph DID_Doc["DID Document"]
+            DID["DID<br />did:key:z6Mk..."]
+            VM["Verification Method<br />公開鍵情報"]
+            Auth["Authentication<br />認証方法"]
+            end
+
+            subgraph VC_Structure["Verifiable Credential"]
+            Context["@context<br />JSON-LD"]
+            Type["type<br />VerifiableCredential"]
+            Issuer["issuer<br />発行者DID"]
+            Subject["credentialSubject<br />証明内容"]
+            Proof1["proof<br />デジタル署名"]
+            end
+
+            subgraph VP_Structure["Verifiable Presentation"]
+            Context2["@context<br />JSON-LD"]
+            Type2["type<br />VerifiablePresentation"]
+            VC["verifiableCredential<br />提示するVC"]
+            Proof2["proof<br />Holder署名"]
+            end
+
+            DID --> Issuer
+            DID --> Subject
+            VC_Structure --> VC
+            VM --> Proof1
+            VM --> Proof2
           </div>
           <div class="row g-4 mt-3">
             <div class="col-lg-6">
@@ -1817,7 +1859,10 @@ graph TD
             <div class="mb-3">
               <h6><i class="fas fa-circle me-2"></i>セキュリティ考慮</h6>
               <ul class="list-unstyled small">
-                <li>• <a href="https://en.wikipedia.org/wiki/Hardware_security_module" target="_blank" class="text-decoration-none mx-1">HSM</a>・<a href="https://developer.arm.com/documentation/102418/0100/What-is-a-Trusted-Execution-Environment--TEE--" target="_blank" class="text-decoration-none mx-1">TEE</a>による暗号鍵管理</li>
+                <li>• <a href="https://en.wikipedia.org/wiki/Hardware_security_module" target="_blank"
+                    class="text-decoration-none mx-1">HSM</a>・<a
+                    href="https://developer.arm.com/documentation/102418/0100/What-is-a-Trusted-Execution-Environment--TEE--"
+                    target="_blank" class="text-decoration-none mx-1">TEE</a>による暗号鍵管理</li>
                 <li>• 耐量子暗号への段階的移行準備</li>
                 <li>• ゼロトラスト・セキュリティモデル</li>
               </ul>
@@ -1842,29 +1887,43 @@ graph TD
             <div class="col-md-4">
               <h6><i class="fas fa-circle me-2"></i>標準化団体・仕様</h6>
               <ul class="list-unstyled small">
-                <li>• <a href="https://www.w3.org/groups/wg/did/" target="_blank" class="text-decoration-none">W3C DID/VCワーキンググループ</a></li>
-                <li>• <a href="https://www.w3.org/TR/did-core/" target="_blank" class="text-decoration-none">W3C DIDコア仕様</a></li>
-                <li>• <a href="https://www.w3.org/TR/vc-data-model/" target="_blank" class="text-decoration-none">W3C検証可能証明書データモデル</a></li>
-                <li>• <a href="https://identity.foundation/" target="_blank" class="text-decoration-none">分散アイデンティティ財団</a></li>
-                <li>• <a href="https://trustoverip.org/" target="_blank" class="text-decoration-none">Trust Over IP財団</a></li>
+                <li>• <a href="https://www.w3.org/groups/wg/did/" target="_blank" class="text-decoration-none">W3C
+                    DID/VCワーキンググループ</a></li>
+                <li>• <a href="https://www.w3.org/TR/did-core/" target="_blank" class="text-decoration-none">W3C
+                    DIDコア仕様</a></li>
+                <li>• <a href="https://www.w3.org/TR/vc-data-model/" target="_blank"
+                    class="text-decoration-none">W3C検証可能証明書データモデル</a></li>
+                <li>• <a href="https://identity.foundation/" target="_blank"
+                    class="text-decoration-none">分散アイデンティティ財団</a></li>
+                <li>• <a href="https://trustoverip.org/" target="_blank" class="text-decoration-none">Trust Over
+                    IP財団</a></li>
                 <li>• <a href="https://openid.net/" target="_blank" class="text-decoration-none">OpenID財団</a></li>
               </ul>
             </div>
             <div class="col-md-4">
               <h6><i class="fas fa-circle me-2"></i>主要実装</h6>
               <ul class="list-unstyled small">
-                <li>• <a href="https://identity.foundation/ion/" target="_blank" class="text-decoration-none">マイクロソフトION</a></li>
-                <li>• <a href="https://www.hyperledger.org/projects/aries" target="_blank" class="text-decoration-none">Hyperledger Aries</a>/<a href="https://www.hyperledger.org/projects/hyperledger-indy" target="_blank" class="text-decoration-none">Indy</a></li>
-                <li>• <a href="https://www.evernym.com/" target="_blank" class="text-decoration-none">Everynymsプラットフォーム</a></li>
+                <li>• <a href="https://identity.foundation/ion/" target="_blank"
+                    class="text-decoration-none">マイクロソフトION</a></li>
+                <li>• <a href="https://www.hyperledger.org/projects/aries" target="_blank"
+                    class="text-decoration-none">Hyperledger Aries</a>/<a
+                    href="https://www.hyperledger.org/projects/hyperledger-indy" target="_blank"
+                    class="text-decoration-none">Indy</a></li>
+                <li>• <a href="https://www.evernym.com/" target="_blank"
+                    class="text-decoration-none">Everynymsプラットフォーム</a></li>
                 <li>• <a href="https://sovrin.org/" target="_blank" class="text-decoration-none">Sovrinネットワーク</a></li>
               </ul>
             </div>
             <div class="col-md-4">
               <h6><i class="fas fa-circle me-2"></i>導入事例</h6>
               <ul class="list-unstyled small">
-                <li>• <a href="https://e-resident.gov.ee/" target="_blank" class="text-decoration-none">エストニア電子居住権</a></li>
-                <li>• <a href="https://ec.europa.eu/digital-building-blocks/wikis/display/EBSI/" target="_blank" class="text-decoration-none">EU欧州ブロックチェーン・サービス基盤</a></li>
-                <li>• <a href="https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/digital-credentials.html" target="_blank" class="text-decoration-none">カナダ・デジタル証明書</a></li>
+                <li>• <a href="https://e-resident.gov.ee/" target="_blank" class="text-decoration-none">エストニア電子居住権</a>
+                </li>
+                <li>• <a href="https://ec.europa.eu/digital-building-blocks/wikis/display/EBSI/" target="_blank"
+                    class="text-decoration-none">EU欧州ブロックチェーン・サービス基盤</a></li>
+                <li>• <a
+                    href="https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/digital-credentials.html"
+                    target="_blank" class="text-decoration-none">カナダ・デジタル証明書</a></li>
                 <li>• <a href="https://www.digital.go.jp/" target="_blank" class="text-decoration-none">日本デジタル庁</a></li>
               </ul>
             </div>
@@ -1884,27 +1943,25 @@ graph TD
       <div class="row justify-content-center">
         <div class="col-lg-6 animate-on-scroll">
           <div class="glass-card p-4 text-center">
-            <img src="https://avatars.githubusercontent.com/u/11953526?v=4" 
-                 alt="週末ものづくり部" 
-                 class="rounded-circle mb-3" 
-                 style="width: 80px; height: 80px; object-fit: cover;">
-            
+            <img src="https://avatars.githubusercontent.com/u/11953526?v=4" alt="週末ものづくり部" class="rounded-circle mb-3"
+              style="width: 80px; height: 80px; object-fit: cover;">
+
             <h5 class="mb-2">週末ものづくり部</h5>
             <p class="small about-text mb-3">
               平日は会社員エンジニア、個人では別ジャンルの事業をゆるっと運営中。AIでやりたかったことに挑戦中。
             </p>
-            
+
             <div class="d-flex gap-3 justify-content-center flex-wrap">
               <a href="https://zenn.dev/helloworld" target="_blank" class="small">
                 <i class="fas fa-book me-1"></i>Zenn
               </a>
-              <a href="https://github.com/takuya-motoshima/" target="_blank" class="small">
+              <a href="https://github.com/shumatsumonobu/" target="_blank" class="small">
                 <i class="fab fa-github me-1"></i>GitHub
               </a>
-              <a href="https://www.npmjs.com/~takuya-motoshima" target="_blank" class="small">
+              <a href="https://www.npmjs.com/~shumatsumonobu" target="_blank" class="small">
                 <i class="fab fa-npm me-1"></i>npm
               </a>
-              <a href="https://x.com/takuya_motech" target="_blank" class="small">
+              <a href="https://x.com/shumatsumonobu" target="_blank" class="small">
                 <i class="fab fa-twitter me-1"></i>Twitter
               </a>
               <a href="https://www.facebook.com/takuya.motoshima.7" target="_blank" class="small">
@@ -1925,7 +1982,7 @@ graph TD
           <p class="mb-0">&copy; 2025 DID/VC技術</p>
         </div>
         <div class="col-md-6 text-md-end">
-          <a href="https://github.com/takuya-motoshima/did-vc" class="text-decoration-none">
+          <a href="https://github.com/shumatsumonobu/did-vc" class="text-decoration-none">
             <i class="fab fa-github me-1"></i>GitHub
           </a>
         </div>
@@ -1941,7 +1998,7 @@ graph TD
     // Mermaid theme configuration
     function getMermaidThemeConfig() {
       const theme = document.documentElement.getAttribute('data-bs-theme');
-      
+
       if (theme === 'light') {
         return {
           theme: 'base',
@@ -1950,38 +2007,38 @@ graph TD
             primaryColor: '#ffffff',
             primaryTextColor: '#1e293b',
             primaryBorderColor: '#94a3b8',
-            
+
             // 全てのボックス背景を白系で統一
             mainBkg: '#ffffff',
-            secondBkg: '#ffffff', 
+            secondBkg: '#ffffff',
             tertiaryColor: '#ffffff',
             nodeBkg: '#ffffff',
             node0: '#ffffff',
             node1: '#ffffff',
             node2: '#ffffff',
             node3: '#ffffff',
-            
+
             // ボーダーを統一
             lineColor: '#64748b',
             border1: '#94a3b8',
             border2: '#94a3b8',
             nodeBorder: '#94a3b8',
-            
+
             primaryBorderThickness: '1px',
             secondaryBorderThickness: '1px',
             tertiaryBorderThickness: '1px',
-            
+
             // クラスター（囲み枠）
             clusterBkg: 'rgba(248, 250, 252, 0.5)',
             clusterBorder: '#94a3b8',
-            
+
             background: '#ffffff',
             darkMode: false,
-            
+
             // テキスト色を統一
             textColor: '#1e293b',
             edgeLabelBackground: '#ffffff',
-            
+
             // シーケンス図
             actorBkg: '#ffffff',
             actorBorder: '#94a3b8',
@@ -1999,7 +2056,7 @@ graph TD
             noteTextColor: '#1e293b',
             activationBkgColor: '#f1f5f9',
             activationBorderColor: '#94a3b8',
-            
+
             // ガントチャート
             sectionBkgColor: '#ffffff',
             altSectionBkgColor: '#f8fafc',
@@ -2020,7 +2077,7 @@ graph TD
             critBkgColor: '#fef2f2',
             critBorderColor: '#94a3b8',
             todayLineColor: '#f59e0b',
-            
+
             fontFamily: '-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
             fontSize: '13px'
           }
@@ -2033,34 +2090,34 @@ graph TD
             primaryColor: '#374151',
             primaryTextColor: '#ffffff',
             primaryBorderColor: '#6b7280',
-            
+
             mainBkg: '#374151',
-            secondBkg: '#374151', 
+            secondBkg: '#374151',
             tertiaryColor: '#374151',
             nodeBkg: '#374151',
             node0: '#374151',
             node1: '#374151',
             node2: '#374151',
             node3: '#374151',
-            
+
             lineColor: '#6b7280',
             border1: '#6b7280',
             border2: '#6b7280',
             nodeBorder: '#6b7280',
-            
+
             primaryBorderThickness: '1px',
             secondaryBorderThickness: '1px',
             tertiaryBorderThickness: '1px',
-            
+
             clusterBkg: 'rgba(55, 65, 81, 0.3)',
             clusterBorder: '#6b7280',
-            
+
             background: '#1f2937',
             darkMode: true,
-            
+
             textColor: '#ffffff',
             edgeLabelBackground: '#374151',
-            
+
             // シーケンス図
             actorBkg: '#374151',
             actorBorder: '#6b7280',
@@ -2078,7 +2135,7 @@ graph TD
             noteTextColor: '#ffffff',
             activationBkgColor: '#4b5563',
             activationBorderColor: '#6b7280',
-            
+
             fontFamily: '-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
             fontSize: '13px'
           }
@@ -2112,7 +2169,7 @@ graph TD
       rootMargin: '0px 0px -50px 0px'
     };
 
-    const observer = new IntersectionObserver(function(entries) {
+    const observer = new IntersectionObserver(function (entries) {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
@@ -2126,7 +2183,7 @@ graph TD
     });
 
     // Navbar background on scroll
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
       const navbar = document.querySelector('.navbar');
       if (window.scrollY > 50) {
         navbar.style.background = 'rgba(15, 20, 25, 0.95)';
@@ -2136,4 +2193,5 @@ graph TD
     });
   </script>
 </body>
+
 </html>
