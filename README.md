@@ -8,7 +8,7 @@
 
 [![W3C](https://img.shields.io/badge/W3C-Standard-005A9C?style=flat-square&logo=w3c)](https://www.w3.org/TR/vc-data-model/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-[![Demo](https://img.shields.io/badge/Demo-Live-brightgreen?style=flat-square)](https://shumatsumonobu.github.io/did-vc-dist/)
+[![Demo](https://img.shields.io/badge/Demo-Live-brightgreen?style=flat-square)](https://shumatsumonobu.github.io/did-vc/)
 
 [概要](#概要) · [全体像](#全体像) · [用語と概念](#用語と概念) · [技術詳細](#技術詳細) · [デモ](#デモ) · [参考資料](#参考資料)
 
@@ -19,7 +19,7 @@
 
 DID（分散型識別子）とVC（検証可能な証明書）をブラウザだけで動かす学習用プロジェクト。W3C標準に準拠し、サーバーレスで動作する。
 
-> **→ [デモサイトで体験する](https://shumatsumonobu.github.io/did-vc-dist/)**
+> **→ [デモサイトで体験する](https://shumatsumonobu.github.io/did-vc/)**
 
 ### プロジェクト構成
 
@@ -224,7 +224,7 @@ localStorage.setItem('vc_wallet', JSON.stringify(credentials));
 
 ## デモ
 
-**[→ デモサイトで体験する](https://shumatsumonobu.github.io/did-vc-dist/)**
+**[→ デモサイトで体験する](https://shumatsumonobu.github.io/did-vc/)**
 
 - VC発行・保管・検証の基本フロー
 - QRコードによる提示
